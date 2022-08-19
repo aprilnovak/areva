@@ -1,0 +1,1307 @@
+%%
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+\documentclass[3p,,preprint,11pt]{elsarticle}
+\makeatletter\if@twocolumn\PassOptionsToPackage{switch}{lineno}\else\fi\makeatother
+
+
+\usepackage{tabulary,xcolor}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{amsfonts,amsmath,amssymb}
+\usepackage[T1]{fontenc}
+\usepackage{mathrsfs}
+\usepackage{colortbl}
+\usepackage{comment}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{booktabs}
+\makeatletter
+\let\save@ps@pprintTitle\ps@pprintTitle
+\def\ps@pprintTitle{\save@ps@pprintTitle\gdef\@oddfoot{\footnotesize\itshape \null\hfill\today}}
+\def\hlinewd#1{%
+  \noalign{\ifnum0=`}\fi\hrule \@height #1%
+  \futurelet\reserved@a\@xhline}
+\def\tbltoprule{\hlinewd{.8pt}\\[-12pt]}
+\def\tblbottomrule{\hlinewd{.8pt}}
+\def\tblmidrule{\noalign{\vspace*{6pt}}\hline\noalign{\vspace*{2pt}}}
+\AtBeginDocument{\ifNAT@numbers \biboptions{sort&compress}\fi}
+\makeatother
+
+
+
+
+\usepackage{ifluatex}
+\ifluatex
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage[]{unicode-math}
+\unimathsetup{math-style=TeX}
+\else
+\usepackage[utf8]{inputenc}
+\fi
+\ifluatex\else\usepackage{stmaryrd}\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Following additional macros are required to function some
+% functions which are not available in the class used.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url,multirow,morefloats,floatflt,cancel,tfrupee}
+\usepackage[acronym,nomain,nonumberlist,nogroupskip,nopostdot]{glossaries} % for glossary of acronyms
+\makeatletter
+
+
+\AtBeginDocument{\@ifpackageloaded{textcomp}{}{\usepackage{textcomp}}}
+\makeatother
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{pifont}
+\usepackage[nointegrals]{wasysym}
+\usepackage{siunitx}
+\usepackage{listings}
+\urlstyle{rm}
+\makeatletter
+
+\usepackage{xcolor}
+
+\colorlet{mygray}{black!30}
+\colorlet{mygreen}{green!60!blue}
+\colorlet{mymauve}{red!60!blue}
+
+\lstset{
+  backgroundcolor=\color{gray!10},
+  basicstyle=\ttfamily\footnotesize,
+  columns=fullflexible,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=b,
+  commentstyle=\color{mygreen},
+  extendedchars=true,
+  frame=single,
+  keepspaces=true,
+  keywordstyle=\color{blue},
+  language=c++,
+  numbers=none,
+  numbersep=5pt,
+  numberstyle=\tiny\color{blue},
+  rulecolor=\color{mygray},
+  showspaces=false,
+  showtabs=false,
+  stepnumber=5,
+  stringstyle=\color{mymauve},
+  tabsize=3,
+  title=\lstname
+}
+
+%%%For Table column width calculation.
+\def\mcWidth#1{\csname TY@F#1\endcsname+\tabcolsep}
+
+%%Hacking center and right align for table
+\def\cAlignHack{\rightskip\@flushglue\leftskip\@flushglue\parindent\z@\parfillskip\z@skip}
+\def\rAlignHack{\rightskip\z@skip\leftskip\@flushglue \parindent\z@\parfillskip\z@skip}
+
+
+\if@twocolumn\usepackage{dblfloatfix}\fi
+\AtBeginDocument{
+\expandafter\ifx\csname eqalign\endcsname\relax
+\def\eqalign#1{\null\vcenter{\def\\{\cr}\openup\jot\m@th
+  \ialign{\strut$\displaystyle{##}$\hfil&$\displaystyle{{}##}$\hfil
+      \crcr#1\crcr}}\,}
+\fi
+}
+
+%For fixing hardfail when unicode letters appear inside table with endfloat
+\AtBeginDocument{%
+  \@ifpackageloaded{endfloat}%
+   {\renewcommand\efloat@iwrite[1]{\immediate\expandafter\protected@write\csname efloat@post#1\endcsname{}}}{}%
+}%
+
+\let\lt=<
+\let\gt=>
+\def\processVert{\ifmmode|\else\textbar\fi}
+\let\processvert\processVert
+
+\@ifundefined{subparagraph}{
+\def\subparagraph{\@startsection{paragraph}{5}{2\parindent}{0ex plus 0.1ex minus 0.1ex}%
+{0ex}{\normalfont\small\itshape}}%
+}{}
+
+% These are now gobbled, so won't appear in the PDF.
+\newcommand\role[1]{\unskip}
+\newcommand\aucollab[1]{\unskip}
+
+\@ifundefined{tsGraphicsScaleX}{\gdef\tsGraphicsScaleX{1}}{}
+\@ifundefined{tsGraphicsScaleY}{\gdef\tsGraphicsScaleY{.9}}{}
+% To automatically resize figures to fit inside the text area
+\def\checkGraphicsWidth{\ifdim\Gin@nat@width>\linewidth
+  \tsGraphicsScaleX\linewidth\else\Gin@nat@width\fi}
+
+\def\checkGraphicsHeight{\ifdim\Gin@nat@height>.9\textheight
+  \tsGraphicsScaleY\textheight\else\Gin@nat@height\fi}
+
+\def\fixFloatSize#1{}%\@ifundefined{processdelayedfloats}{\setbox0=\hbox{\includegraphics{#1}}\ifnum\wd0<\columnwidth\relax\renewenvironment{figure*}{\begin{figure}}{\end{figure}}\fi}{}}
+\let\ts@includegraphics\includegraphics
+
+\def\inlinegraphic[#1]#2{{\edef\@tempa{#1}\edef\baseline@shift{\ifx\@tempa\@empty0\else#1\fi}\edef\tempZ{\the\numexpr(\numexpr(\baseline@shift*\f@size/100))}\protect\raisebox{\tempZ pt}{\ts@includegraphics{#2}}}}
+
+%\renewcommand{\includegraphics}[1]{\ts@includegraphics[width=\checkGraphicsWidth]{#1}}
+\AtBeginDocument{\def\includegraphics{\@ifnextchar[{\ts@includegraphics}{\ts@includegraphics[width=\checkGraphicsWidth,height=\checkGraphicsHeight,keepaspectratio]}}}
+
+\def\URL#1#2{\@ifundefined{href}{#2}{\href{#1}{#2}}}
+\setlength{\parskip}{0.5em}
+
+%%For url break
+\def\UrlOrds{\do\*\do\-\do\~\do\'\do\"\do\-}%
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+\def\floatpagefraction{0.8}
+\def\dblfloatpagefraction{0.8}
+\def\style#1#2{#2}
+\def\xxxguillemotleft{\fontencoding{T1}\selectfont\guillemotleft}
+\def\xxxguillemotright{\fontencoding{T1}\selectfont\guillemotright}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\emergencystretch 15pt \def\floatpagefraction{0.8}
+
+\setacronymstyle{long-short}
+\loadglsentries{tex_inputs/glossary}
+\makeglossaries
+
+\newcommand{\mdash}
+           {\discretionary{}{}{\kern 0.1em}---\discretionary{}{}{\kern 0.1em}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Coupled Monte Carlo Transport and Conjugate Heat Transfer for Wire-Wrapped Bundles Within the MOOSE Framework}
+
+\author{A.~J.~Novak, P.~Shriwise, P.~K.~Romano\footnote{Argonne National Laboratory}, R. Rahaman\footnote{Georgia Institute of Technology}, E. Merzari\footnote{Pennsylvania State University}, D.~Gaston\footnote{Idaho National Laboratory}}
+
+\begin{abstract}
+Cardinal is an open-source application that couples OpenMC Monte Carlo transport and NekRS Computational Fluid Dynamics (CFD) to the Multiphysics Object-Oriented Simulation Environment (MOOSE), closing neutronics and thermal-fluid gaps in conducting high-resolution multiscale and multiphysics analyses of nuclear systems.
+%This work focuses on validation of Cardinal's conjugate heat transfer coupling of NekRS's turbulence modeling with MOOSE's heat conduction physics for bare and wire-wrapped hexagonal fuel bundles. 
+We first provide a brief introduction to Cardinal’s software design, data mapping, and coupling strategy to highlight our approach to overcoming common challenges in high-fidelity multiphysics simulation. We then present two Cardinal simulations for hexagonal pin bundles; the first is a validation of Cardinal's conjugate heat transfer coupling of NekRS's Reynolds Averaged Navier Stokes (RANS) model with MOOSE's heat conduction physics for a bare 7-pin Freon-12 bundle flow experiment. Predictions for pin surface temperatures under three different heating modes agree reasonably well with experimental data and similar CFD modeling from the literature. The second simulation is a multiphysics coupling of OpenMC, NekRS, and BISON for a reduced-scale, 7-pin wire-wrapped version of an Advanced Burner Reactor bundle. Wire wraps are approximated using a momentum source model, and coupled predictions are provided for temperatures and power distributions. %A postprocessing system tailored to generate closures for subchannel methods is also demonstrated.
+\end{abstract}
+
+\begin{keyword}
+Cardinal, MOOSE, NekRS, OpenMC, CFD, Monte Carlo
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+
+Many reactor phenomena are inherently multiscale and multiphysics. The time and length scales
+characterizing fluid flow
+and heat transfer in reactor systems typically span many orders of magnitude.
+At the lower length scale, fine-scale effects include turbulent energy dissipation,
+turbulent boundary layers, and microstructure behavior in materials.
+At the higher length scales, large-scale effects are typically described in terms of core
+pressure drop and bulk energy balances with characteristic lengths on the order of meters.
+Physics phenomena over this broad range of scales have significant implications for
+reactor design and licensing, and multiscale techniques are often necessary to
+achieve full-core simulations.
+
+One example of a strongly-coupled multiphysics phenomenon is found in
+many fast spectrum reactors, where interactions between solid mechanics, neutronics, fuel performance,
+and \gls{th} physics produce a reactivity feedback effect
+known as ``core radial expansion.'' The combination of thermal expansion,
+irradiation swelling, and irradiation creep results in bowing
+that has significant implications for reactor control \cite{haroldsen,fontaine} and
+refueling operations \cite{shields}.
+The tightly coupled nature of the core physics often requires multiphysics analyses
+to accurately predict this phenomenon.
+
+Historically, a challenge common to multiscale and multiphysics modeling of nuclear systems
+is the development of tools for neutron transport, \gls{th}, and solid mechanics
+using a wide variety of spatial discretization schemes, software architectures, and
+solution data structures. Depending on code design, it may not be a simple feat to establish
+just the ``mechanics'' of scale and physics coupling -- the data transfers, parallel
+communication, and iterative solution among diverse physics codes.
+
+The \gls{moose} is a finite element framework that allows applied
+math practitioners to translate physics models into high-quality, state-of-the-art engineering software while also providing solutions to many of the ``software mechanics'' challenges encountered in multiphysics research \cite{moose2020}. Because all \gls{moose} applications are based on the same framework, a shared data transfer
+and field interpolation system can be used to couple \gls{moose} applications to one another
+through source terms, \glspl{bc}, and virtually any other mechanism by which physics and scales might be coupled.
+This common execution and data transfer system provides an opportunity for ``platform coupling,'' where the
+\gls{moose} framework is used as an \gls{api} for coupling codes. 
+
+This work describes multiphysics modeling using Cardinal, an open-source application that wraps the NekRS \gls{cfd} code \cite{nekrs} and the OpenMC Monte Carlo particle transport code \cite{openmc} within the \gls{moose} framework. Cardinal leverages \gls{moose}'s physics- and geometry-agnostic multi-application and data transfer systems to enable high-resolution multiphysics feedback to the \gls{moose} ``ecosystem.'' By adopting \gls{moose}'s plug-and-play philosophy, Cardinal has been applied to very diverse systems, including multiphysics couplings of NekRS, OpenMC, and BISON for \glspl{pbr} ranging from 1568 to 127000 pebbles \cite{merzari2021,fischer_2021}; multiphysics couplings of NekRS, OpenMC, BISON, and THM for \glspl{htgr} ranging from the unit cell to \gls{smr} full-core scale \cite{novak2022_cardinal}; separate and overlapping domain coupling of NekRS and SAM for systems-level analysis \cite{huxford}; and coupling of NekRS and the \gls{moose} tensor mechanics module for pressurized thermal shock in \glspl{lwr} \cite{yu_2022}.
+
+Building off the success of this work, Cardinal has recently expanded into fast reactor applications as part of a multi-year project that aims to improve the understanding of core bowing reactivity feedback effects by simulating the tightly-coupled neutronics, \gls{th}, and solid mechanics physics with OpenMC, NekRS, and the \gls{moose} tensor mechanics module. This paper is an extension of an earlier 7-pin \gls{sfr} bundle model \cite{novak_2021}, and adds turbulent flow conditions and experimental validation for the \gls{cht} physics. The objectives of this work are to 1)~introduce the coupling methodologies used in Cardinal; 2)~validate Cardinal's \gls{cht} coupling of NekRS to BISON using a bare, 7-pin Freon-12 experiment performed by the Research Center Karlsruhe \cite{cheng2009}; and 3)~demonstrate a tight coupling of NekRS, OpenMC, and BISON for a small-scale version of a driver fuel assembly in the \gls{abr} \cite{abr}. 
+% TODO: add more of a sentence here about validation of multiphysics?
+
+The remainder of this paper is as follows. Section \ref{sec:tools} introduces the ``single-physics'' computational tools used in the present analysis -- NekRS, OpenMC, and BISON -- as well as how they are coupled together via Cardinal. Next, Section \ref{sec:cheng} presents validation of Cardinal's NekRS--\gls{moose} coupling with temperature data obtained from a 7-pin bare pin bundle at turbulent flow conditions. Section \ref{sec:coupled} then presents a fully-coupled multiphysics simulation of a 7-pin wire-wrap \gls{abr} fuel bundle by incorporating OpenMC Monte Carlo transport. Pin-resolved predictions are provided for the fission distribution, fluid temperature, and solid temperature. %A postprocessing system tailored to the generation of subchannel \gls{th} closures is also demonstrated. 
+Finally, Section \ref{sec:conclusions} revisits the limitations of the modeling and simulation, and outlines future work.
+
+\section{Computational Tools}
+\label{sec:tools}
+
+This section introduces Cardinal and describes how OpenMC and NekRS are coupled to \gls{moose}. Then, Sections \ref{sec:openmc}--\ref{sec:bison} provide additional model information for the ``single-physics'' OpenMC, NekRS, and BISON models in the context of the present applications.
+
+\subsection{Cardinal}
+\label{sec:cardinal}
+
+\gls{moose} was initially developed for solving coupled systems of nonlinear \glspl{pde} \cite{moose2020}. To utilize \gls{moose} in this manner, applied math practitioners can create {\tt C++} objects in an object-oriented framework to represent the physics kernels, \glspl{bc}, material properties, executioners, and any other aspects of the governing equations and solution strategy. \gls{moose} then coordinates libMesh and PETSc to discretize space using the finite element method and solve the nonlinear system. Many such ``native'' \gls{moose} applications have been developed, spanning domains including nuclear reactor physics \cite{rattlesnake}, nuclear fuel performance \cite{bison}, systems-level \gls{th} \cite{hu}, porous media \gls{th} \cite{novak2021b}, and heat pipes \cite{sockeye}. 
+
+In recent years, \gls{moose} has added the capability for coupled solves with ``external'' applications that are based on entirely different solution methodologies and software stacks. An external code can be ``wrapped'' into a \gls{moose} application by overriding a few key interface functions in \gls{moose}'s code base to initialize, run, and postprocess results for the external code, while exposing the time stepping, synchronization, and data transfer systems in \gls{moose}. These ``\gls{moose}-wrapped codes'' are themselves \gls{moose} applications, but with physics engines substituted with \gls{api} calls to the external code base. Such applications are also referred to as ``non-native'' \gls{moose} applications, because all aspects of the simulation are pulled from external libraries.
+
+Cardinal is a non-native \gls{moose} application that wraps OpenMC and NekRS within \gls{moose}, allowing the radiation transport and \gls{cfd} physics engines in OpenMC and NekRS to interact with the \gls{moose} framework. Cardinal essentially translates the NekRS and OpenMC solutions into a \gls{moose}-compatible format which can then be applied as feedback to {\it any} other \gls{moose} application using \gls{moose}'s mesh-to-mesh mapping features. Cardinal is designed with a general plug-and-play structure that allows OpenMC and NekRS to be ``mixed and matched'' with other \gls{moose} applications, or even one another. 
+For instance, the same OpenMC model can provide neutronics feedback to NekRS turbulence-resolved \gls{cfd}, Pronghorn subchannel/porous media models, and SAM 1-D flow loop models \cite{nekrs,novak_manual_2020,hu}. In a similar fashion, the same NekRS model can provide \gls{cfd} feedback to a \gls{moose} tensor mechanics model, BISON fuel performance, Griffin deterministic neutronics, and OpenMC radiation transport \cite{bison,openmc}. 
+
+A detailed introduction to the software design, data transfers, and coupling strategy used in Cardinal can be found in our previous work \cite{novak2022_cardinal}. Extensive documentation on Cardinal's build system, input file syntax, and model setup can also be found on the Cardinal website \cite{cardinal_website}. Here, we briefly summarize the high-level design and advantages of Cardinal in contrast with other high fidelity multiphysics works and refer the reader to the literature for detailed information \cite{novak2022_cardinal}.
+
+The Cardinal software consists of three main steps to wrap NekRS and OpenMC within \gls{moose}. Representing NekRS and OpenMC symbolically as $\chi$, these three steps are:
+
+\begin{enumerate}
+\item Copy the mesh/geometry of $\chi$ into the {\tt MooseMesh} format.
+This ``mesh mirror'' is the receiving point for all field data sent in/out of $\chi$.
+\item Establish a spatial mapping from $\chi$'s geometry to the mesh mirror.
+\item Solve $\chi$:
+  \begin{enumerate}
+  \item Read data from {\tt MooseVariable}(s) defined on the mesh mirror and send to $\chi$.
+  \item Run $\chi$ for one time step.
+  \item Read data from $\chi$ and write into {\tt MooseVariable}(s) defined on the mesh mirror.
+  \end{enumerate}
+\end{enumerate}
+
+Fig. \ref{fig:framework} depicts the overall relationship of Cardinal, NekRS, and OpenMC to the \gls{moose} framework. In gray circles are shown a number of ``native'' \gls{moose} applications, which perform physics solves using the \gls{moose} framework. Conversely, the models used by NekRS (a high-order spectral element solution) and OpenMC (a cell-uniform \gls{csg} solution) are shown in the upper and lower right, respectively. 
+
+Cardinal interfaces NekRS and OpenMC with \gls{moose}'s mesh-to-mesh field transfer system by copying the external solutions to and from a mesh mirror. These mesh mirrors are intermediate layers between NekRS/OpenMC and \gls{moose} and represent the receiving point for all data sent in/out of NekRS/OpenMC. The solid red arrows in Fig. \ref{fig:framework} represent data transfers facilitated by Cardinal, while all dashed black arrows represent data transfers performed by \gls{moose}. The particular fields transferred between applications (heat flux, power, temperature, etc.) are customizable and are dependent on the particular system being modeled. 
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=\linewidth]{figures/framework.png}
+\caption{\centering Overall relationship of Cardinal, NekRS, and OpenMC to the \gls{moose} framework. All gray circles are ``native'' \gls{moose} applications. Solid red arrows indicate data transfers performed by Cardinal, while dashed black arrows indicate data transfers performed using \gls{moose}.}
+\label{fig:framework}
+\end{figure}
+
+Cardinal's design eliminates many limitations common to earlier \gls{th} and Monte Carlo couplings. All data is communicated in-memory, obviating the need
+for code-specific I/O programs \cite{ivanov_2013,zhang,mylonakis} and reducing file-based communication bottlenecks
+\cite{guo_2017}. In addition, spatial mappings to MOOSE are constructed automatically, with no requirements on node/element/cell alignment. This eliminates the need for rigid one-to-one mappings \cite{gurecky} or careful attention to cell volumes \cite{romano_enrico}, but more importantly, allows for geometry-agnostic data transfers. Cardinal's diverse applications to \glspl{pbr}, \glspl{sfr}, \glspl{lwr}, and \glspl{htgr} are all conducted without the need to develop any custom source code or file I/O manipulation scripts.
+
+Cardinal is developed for \gls{hpc} deployment, and supports distributed mesh data transfers between NekRS, OpenMC, and \gls{moose}. Both \gls{moose} and NekRS may distribute the mesh and solutions among MPI ranks, reducing memory associated for transfers. OpenMC replicates the geometry across all ranks, but may still communicate with a domain-decomposed MOOSE solve.
+In addition, NekRS supports both CPU and GPU backends. When GPUs are available, Cardinal facilitates data transfers between the host (where \gls{moose} and OpenMC run) and device (where NekRS runs). A GPU port is currently under development in OpenMC, with plans to support via Cardinal \cite{tramm}. Cardinal also contains a rich postprocessing system to generate coarse-mesh \gls{th} closures directly from NekRS simulations.%, which will be demonstrated in Section \ref{sec:postprocessing}.
+
+Sections \ref{sec:openmc} and \ref{sec:nekrs} next describe Cardinal's OpenMC and NekRS wrappings in greater detail, with emphasis on the particular models used in the present work. Section \ref{sec:bison} also briefly covers BISON, which provides the solid heat conduction solver.
+An in-depth description of the Picard coupling strategy is then presented in Section \ref{sec:picard}.
+
+\subsection{OpenMC}
+\label{sec:openmc}
+
+OpenMC is an open-source continuous-energy neutron-photon Monte Carlo code with capabilities for cell and libMesh unstructured mesh tallies, $k$-eigenvalue and fixed source calculations, event- and history-based parallelism, depletion, windowed multipole on-the-fly Doppler broadening, and many other features \cite{openmc}.
+In the present work, the OpenMC models are built using a \gls{csg} cell-based geometry.
+%where space is discretized into the intersections of ``half spaces'' of various common surfaces.
+Woodcock delta tracking and mesh-based geometries are both currently under development, so temperatures and densities are uniform over an individual cell.
+
+The fission distribution is measured with a {\tt kappa-fission} tally, or the recoverable energy release from fission in units of eV/source. Cross section data is provided with the ENDF/B-VII.1 library, which has data sets between 250 \si{\kelvin} and 2500 \si{\kelvin}. For the $S(\alpha,\beta)$ thermal scattering data and \gls{urr} probability tables, an in-memory stochastic linear-linear interpolation between the nearest two temperature data sets is performed, whereas the windowed multipole method is used for the resolved resonance range. %Many previous researchers have explored the effect of the interpolation strategy on accuracy in either the microscopic cross sections themselves \cite{trumbull} or else on secondary parameters such as reaction rates \cite{seker_2007,vazquez,ivanov}. Future work may include sensitivity studies on the library temperature spacing for the $S(\alpha,\beta)$ and \gls{urr} tables.
+
+Cardinal couples OpenMC to \gls{moose} through the fission distribution and cross section feedback via cell temperatures and densities. During initialization, Cardinal automatically loops over the elements in the mesh mirror and maps each by centroid to an OpenMC cell to obtain a mapping between cells $c$ and elements $e$. For a given cell $c$, the fission tally is written as a constant monomial field to $e$, while temperatures and densities are updated from volume-averages of these fields over $e$. An example \gls{csg} geometry and mesh mirror is shown in the lower right of Fig. \ref{fig:framework}. The \gls{csg} geometry is colored by cell ID, and the inset shows the actual boundary of an OpenMC cell as a white dashed line. The element centroids, shown as white dots, determine the cell-to-element mapping. There are no requirements on alignment of elements/cells or on preserving volumes -- the OpenMC cells and mesh mirror elements do not need to be conformal, and any distortion is considered a discretization error that is addressed via formal mesh refinement studies.
+
+%Of course, any multiphysics simulation without {\it identical} meshes between code $A$ and code $B$ will suffer from a discretization error arising from solution interpolation between the codes. This applies equally to coupling Monte Carlo and heat transfer (the present application) as well as to coupling two mesh-based codes, such as neutron diffusion with heat conduction. The proper manner to address this discretization error is through a coupled physics mesh refinement study that ensures that all meshes, as well as the data communicated between applications, are sufficiently resolved. This work presents a coupled mesh refinement study in Section \ref{sec:uc_refine}.
+
+\subsection{NekRS}
+\label{sec:nekrs}
+
+NekRS is an open-source spectral element \gls{cfd} code with capabilities for \gls{rans} modeling, \gls{les}, and \gls{dns} \cite{nekrs}. By using the \gls{occa} interface, NekRS supports both CPU and GPU backends. In the present work, NekRS solves for constant-property mass, momentum, and energy conservation with an incompressible \gls{rans} model,
+
+\begin{equation}
+\nabla\cdot\vec{u}=0
+\end{equation}
+
+\begin{equation}
+\label{eq:momentum}
+\rho_f\left(\frac{\partial\vec{u}}{\partial t}+\vec{u}\cdot\nabla\vec{u}\right)=-\nabla P+\nabla\cdot\left\lbrack\left(\mu_f+\mu_T\right)\nabla\vec{u}\right\rbrack+\rho_f\vec{f}
+\end{equation}
+
+\begin{equation}
+\label{eq:en}
+\rho_fC_{p,f}\left(\frac{\partial T_f}{\partial t}+\vec{u}\cdot\nabla T_f\right)=\nabla\cdot\left\lbrack\left(k_f+k_T\right)\nabla T_f\right\rbrack
+\end{equation}
+
+\noindent where $\vec{u}$ is the velocity, $\rho_f$ is the density, $P$ is the pressure, $\mu_f$ is the laminar dynamic viscosity, $\mu_T$ is the turbulent dynamic viscosity, $C_{p,f}$ is the isobaric specific heat capacity, $T_f$ is the temperature, $k_f$ is the laminar thermal conductivity, and $k_T$ is the turbulent thermal conductivity. $\vec{f}$ is a generic momentum source. The turbulent Prandtl number $Pr_T$ relates $k_T$ and $\mu_T$,
+
+\begin{equation}
+Pr_T\equiv\frac{\mu_TC_{p,f}}{k_T}\ .
+\end{equation}
+
+\noindent $Pr_T=0.9$ is used for the Freon-12 simulations in Section \ref{sec:cheng} \cite{mays}, 
+while the Aoki correlation \cite{taler} is used for the sodium simulations in Section \ref{sec:coupled}. The $k$-$\tau$ \gls{rans} model is then used to evaluate $\mu_T$ based on two additional \glspl{pde} for the turbulent kinetic energy $k$ and the inverse specific dissipation rate $\tau$ \cite{kok,thangam}.
+Wall functions in NekRS are currently under development, so all NekRS models are wall-resolved such that $y^+<1$. %All solution variables are represented as 7th-order spectral element interpolations of \gls{gll} quadrature points, or $8^3\equiv512$ \glspl{dof} per element. 
+
+Both bare and wire-wrapped bundles are modeled in this work.
+To approximate the effect of the wire wraps on crossflow, the \gls{msm}
+of Hu and Fanning \cite{hu2013} was implemented in NekRS. This model attempts to capture the important wire physics with a bare-bundle mesh by correcting for the absence of meshed wires by adding a momentum body force at each quadrature point ``inside'' the wire region. In other words, an additional forcing term $\vec{f}$ which ``spirals'' around the pin is added to the momentum equation. The momentum source has components
+tangent to the wire ($f_t$), tangential to the pin but perpendicular to the wire ($f_n$), and perpendicular to both the wire and the pin ($f_{pn}$). The corresponding unit vectors $\hat{n}_t$, $\hat{n}_n$, and $\hat{n}_{pn}$ are shown in Fig. \ref{fig:unit_vectors} along with two angles, $\phi$ and $\theta$. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.7\linewidth]{figures/unit_vectors.png}
+\caption{Unit vector and angle definitions for the wire wrap \gls{msm}.}
+\label{fig:unit_vectors}
+\end{figure}
+
+The unit vectors are as follows,
+
+\begin{equation}
+\label{eq:n_t}
+\hat{n}_t=\sin{\phi}\cos{\left(\theta+\frac{\pi}{2}\right)}\ \hat{i}+\sin{\phi}\sin{\left(\theta+\frac{\pi}{2}\right)}\ \hat{j}+\cos{\phi}\ \hat{k}\ ,
+\end{equation}
+
+\begin{equation}
+\hat{n}_n=\cos{\phi}\cos{\left(\theta-\frac{\pi}{2}\right)}\ \hat{i}+\cos{\phi}\sin{\left(\theta-\frac{\pi}{2}\right)}\ \hat{j}+\sin{\phi}\ \hat{k}\ ,
+\end{equation}
+
+\begin{equation}
+\hat{n}_{pn}=-\cos{\theta}\ \hat{i}-\sin{\theta}\ \hat{j}\ ,
+\end{equation}
+
+\noindent where we note that in the original publication \cite{hu2013} there is a misprint in the $\hat{k}$ component of $\hat{n}_t$ that has been corrected here. These definitions can be verified by noting that $\hat{n}\cdot\hat{n}_t=0$ and $\hat{n}_n\times\hat{n}_t=\hat{n}_{pn}$. The momentum source is then expressed as
+
+\begin{equation}
+\label{eq:msm}
+-\vec{f}= \underbrace{f_{B}\frac{u_t^2}{2D_w}}_{f_t}\hat{n}_t+\underbrace{\left(u_n\frac{\partial u_n}{\partial n_n}+u_t\frac{\partial u_n}{\partial n_t}+u_{pn}\frac{\partial u_n}{\partial n_{pn}}\right)}_{f_n}\hat{n}_n+\underbrace{\left(u_n\frac{\partial u_{pn}}{\partial n_n}+u_t\frac{\partial u_{pn}}{\partial n_t}+u_{pn}\frac{\partial u_{pn}}{\partial n_{pn}}\right)}_{f_{pn}}\hat{n}_n\ ,
+\end{equation}
+
+where $u_t$, $u_n$, and $u_{pn}$ are the velocity components along the corresponding unit vectors and $D_w$ is the wire diameter.
+In the two wire-normal directions, the primary effect of the wire is to block the flow, such that
+the body force components are the dominant contributions to the change in momentum. 
+In the wire-tangent direction, the primary effect of the wire is a frictional loss, represented with a friction factor $f_B$. By assuming that velocity gradients are proportional to the normal velocity and with other details from Hu and Fanning \cite{hu2013}, Eq. \eqref{eq:msm} is implemented as
+
+\begin{equation}
+\label{eq:msm2}
+-\vec{f}= f_{B}\frac{u_t^2}{2D_w}\hat{n}_t+\frac{C\rho u_n\left(u_t\cos{\phi}+v_{pn}\right)}{D_w}\hat{n}_n+\frac{C\rho u_{pn}\left(u_n+u_t\cos{\phi}+u_{pn}\right)}{D_w}\hat{n}_n\ ,
+\end{equation}
+
+%Hu and Fanning suggest that any value of $C\gt0$ is acceptably large to block the flow, but provides no further guidance on selecting this parameter. Mays et al. conducted some sensitivity studies by varying $C$, and found that higher values of $C$ increase the blocking force such that the velocity in the pin-pin gap regions is more concentrated away from the pin surfaces \cite{mays}. Baseline results will be obtained for $C=3.0$, and
+%Section \ref{sec:Cstudy} will perform a brief sensitivity study to determine how $C$ affects bulk pressure drop and Nusselt number to motivate the selection used in the validation.
+
+\noindent where $C=3.0$ is a constant. 
+Several insights from previous sensitivity studies \cite{hu2013} are used to inform the present
+implementation in NekRS. 
+First, Hu and Fanning compared the effect of explicit capturing of
+the wire surface in their ``bare'' bundle meshes, versus meshing without regard to the wire-fluid interface. 
+%For the latter, entire cells are assumed to be ``in'' the wire region if the centroid is within the wire boundary. 
+When the wire surface is not explicitly captured, the cross-sectional area of the momentum source is distorted, causing errors in the pressure drop on the order of a few percent. 
+Normalized cross-flow distributions were still well-predicted for interior gaps,
+though were slightly over-predicted for gaps in the peripheral region. 
+When considering that typical predictive accuracy of \gls{cfd} models is in the range of 5--20\% for pressure drops
+\cite{mays,hamman,martin2020,brockmeyer}, these small errors are
+acceptable trade-offs to further simplify the mesh.
+In the present work, quadrature points
+are individually assigned to be ``inside''/``outside'' of the wire region, as shown in Fig. \ref{fig:wire_identification}.
+%The particular focus on a 61-pin bundle in Section \ref{sec:areva} will likely mitigate the modeling errors observed
+%by Hu and Fanning for a 7-pin bundle (where peripheral crossflows were most in error, but interior crossflows were well-predicted)
+%due to the reduced overall effect of the peripheral region on the bundle flow.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.7\linewidth]{figures/wire_identification.png}
+\caption{Assignment of individual \gls{gll} points to ``inside''/``outside'' the wire region. Yellow regions will have a nonzero momentum source, while teal regions have zero additional forcing term.}
+\label{fig:wire_identification}
+\end{figure}
+
+Next, Hu and Fanning explored the sensitivity of the $f_B$ model. When the tangential friction
+was removed ($f_B=0$), the pressure drop was underpredicted by only a few percent, while the normalized crossflow velocities
+were only minorly affected since the main driver of crossflows is the blocking effect. Therefore, we also adopt the Blasius correlation for tube flow in this work, despite the
+obvious differences between tubes and helical wire wraps. Additional sensitivity studies on other model coefficients such as $C$ in Eq. \eqref{eq:msm2} will be conducted as future work specifically aiming to validate the wire wrap \gls{msm}. 
+
+%Additional sensitivity studies on other model coefficients (a constant $C$ in $f_n$ and $f_{pn}$ that is fully detailed in the original reference \cite{hu2013}) again show only minor effects on crossflow velocities, since the use of local velocities in Eq. \eqref{eq:msm} ensures the \gls{msm} is self-adjusting such that $f_n=f_{pn}=0$ if the flow perfectly follows the wire direction ($\vec{V}/\|\vec{V}\|=\hat{n}_t$).
+
+% TODO: Add insights from Martin work on MSM sensitivity
+%The \gls{msm} is an approximation to the true effect of the wire, and will not be able to capture the high-temperature regions near the wire-pin contact point \cite{hamman,ahmad}. 
+
+Cardinal contains two modes for coupling NekRS to \gls{moose} -- 1)~boundary \gls{cht} coupling via temperature and heat flux wall \glspl{bc}, and 2)~volume coupling via heat sources, temperatures, and densities. In this work, we combine both modes together, such that NekRS communicates via \gls{cht} with BISON, but via densities and temperatures with OpenMC. 
+
+During initialization, Cardinal automatically loops over the elements in the high-order \gls{cfd} mesh and reconstructs the mesh as a lower-order mesh mirror. For \gls{cht} coupling, only the boundaries through which NekRS is coupled to \gls{moose} are rebuilt. Conversely, the entire NekRS mesh is reconstructed for volumetric coupling. An example of a spectral element \gls{cfd} mesh and a volumetric mesh mirror are shown in the upper right of Fig. \ref{fig:framework}. The spectral element solution is then interpolated to/from a lower-order Lagrange basis on the mesh mirror using Vandermonde matrices \cite{novak2022_cardinal}.
+
+\subsection{BISON}
+\label{sec:bison}
+
+BISON is a \gls{moose}-based fuel performance code applicable to a wide variety of nuclear fuels \cite{bison}. This work solves the steady state heat conduction equation for solid temperature $T_s$,
+
+\begin{equation}
+-\nabla\cdot\left(k_s\nabla T_s\right)=\dot{q}_s\ ,
+\end{equation}
+
+\noindent where $\dot{q}_s$ is the heat source and $k_s$ is the solid thermal conductivity. Thermal conductivities for the various solid materials used in this work are obtained from the literature \cite{godbee,powell,bn,tinte,leibowitz,bison}.
+
+In order to have a fully open-source model which can serve as a user tutorial, the actual heat conduction simulations are conducted with \gls{moose}'s heat conduction module (which BISON uses internally for the heat conduction physics kernels). For brevity, ``BISON'' will be used in order to convey \gls{moose}'s heat conduction solver. In other words, the BISON executable can be used to run the models developed for this paper, but in order to release inputs as open-source tutorials, the actual solves are conducted with the MOOSE heat conduction module (which provides the same physics kernels as BISON).
+
+\subsection{Picard Coupling}
+\label{sec:picard}
+
+%Sections \ref{sec:cardinal}--\ref{sec:nekrs} introduced Cardinal and its physics engines, OpenMC and NekRS. The mesh mirror concept used to map the OpenMC and NekRS solutions to a \gls{moose}-compatible format was described. 
+
+This section provides additional discussion on the Picard coupling strategy and data transfers used to coupled OpenMC, NekRS, and BISON.
+Fig. \ref{fig:picard} summarizes the data transfers for each Picard iteration using the present \gls{sfr} simulations as an example. Note that these data transfers can be system- and resolution-dependent; many other examples are available in the literature \cite{huxford,yu_2022,novak2022_cardinal}.
+For the \gls{cht} simulations conducted in Section \ref{sec:cheng} that omit neutron transport, it is understood that the execution of and data transfers to/from OpenMC are simply omitted from Fig. \ref{fig:picard}. 
+
+OpenMC solves for the fission distribution and sends the pin power to BISON. For simplicity, this work neglects power generation in the coolant, although Cardinal does support non-local Monte Carlo tallies and volumetric heat sources in Eq. \eqref{eq:en} that can be used to capture non-local power generation. Next, BISON solves for the solid temperature, and sends the solid temperature to OpenMC and the fluid-solid boundary heat flux to NekRS. Finally, NekRS solves for the fluid flow and heat transfer, and sends the fluid temperature and density to OpenMC and the fluid-solid wall temperature to BISON. In other words, OpenMC is coupled to BISON and NekRS via volumetric terms, while BISON and NekRS are coupled to one another through \glspl{bc} on the fluid-solid interfaces.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.8\linewidth]{figures/picard.png}
+\caption{Summary of data transfers that occur within each Picard iteration for an \gls{sfr} multiphysics application.}
+\label{fig:picard}
+\end{figure}
+
+Picard iterations are achieved ``in time.'' In other words, the simulation has a notion of ``time'' and a time step index, but only NekRS is actually solved with non-zero time derivatives. The concept of time-stepping is then used to
+customize how frequently (i.e., in units of time steps) data is exchanged among applications.
+Each application uses a unique time step size, which plays a significant role in reducing the number of high-cost physics solves.
+
+To help explain the strategy, represent the time step sizes in NekRS, BISON, and OpenMC as
+$\Delta t_{nek}$, $\Delta t_{bison}=M\Delta t_{nek}$, and $\Delta t_{openmc}=NM\Delta t_{nek}$, respectively.
+Selecting $N\neq1$ and/or $M\neq1$ is referred to as ``sub-cycling.'' In other words,
+NekRS runs $M$ times for each BISON solve, while BISON runs $N$ times for each OpenMC solve, effectively reducing the total number of BISON solves by a factor of $M$ and the total number of OpenMC solves by a factor of $NM$ compared to the naive approach to exchange data based on the smallest time step across the coupled codes. 
+Therefore, each Picard iteration consists of:
+
+\begin{enumerate}
+\item Run an OpenMC $k$-eigenvalue calculation. Transfer $\dot{q}_s$ to BISON.
+\item Repeat $N$ times:
+  \begin{enumerate}
+  \item Run a steady-state BISON calculation. Transfer $q^{''}$ to NekRS.
+  \item Run a transient NekRS calculation for $M$ time steps. Transfer $T_\text{wall}$ to BISON.
+  \end{enumerate}
+\item Transfer $T_s$, $T_f$, and $\rho_f$ to OpenMC.
+\end{enumerate}
+
+Fig. \ref{fig:subcycling} shows the procedure for an example selection of $N=3$, meaning that the BISON-NekRS sub-solve occurs three times for every OpenMC solve. For the \gls{cht} simulations in Section \ref{sec:cheng}, it is again understood that the ``Run OpenMC'' step is omitted.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=0.6\linewidth]{figures/subcycling.png}
+\caption{\centering Coupling procedure with subcycling for a calculation with OpenMC, BISON, and NekRS for $N=3$.}
+\label{fig:subcycling}
+\end{figure}
+
+Due to \gls{cfl} considerations, the time steps used in NekRS are typically on the order of milliseconds (though each individual NekRS \gls{cfd} solve is extremely fast).
+In the present work, $M=2$ was required to obtain a stable solution for the \gls{cht} modeling in Section \ref{sec:cheng}, although we note that the vast majority of our past \gls{cht} simulations can use data transfer intervals 1--3 orders of magnitude less frequent. The multiphysics modeling in Section \ref{sec:coupled} allowed more ``forgiving'' data exchanges, and $M=1$ and $N=5000$ were selected based on preliminary scoping studies. Selecting $N=5000$ for this latter case transfers data approximately every 0.5 flow-through-times in the NekRS domain. A rigorous search for the optimal choices is deferred to future work.
+
+\section{Bare Bundle Validation}
+\label{sec:cheng}
+
+Validating Cardinal for multiphysics neutronics-\gls{th}-fuels modeling of \glspl{sfr} is a considerable task requiring high-quality data for temperatures, velocities, pressures, and fission distributions under a wide variety of operating conditions spanning different flow regimes, burnups, fuel loading, and more. There are several \gls{th} experimental facilities which provide data for temperatures, pressures, and velocities which can be used to validate Cardinal's NekRS--\gls{moose} \gls{cht} coupling \cite{chang_2017,choi,goth,song_2020,chun,rehme,roidt,engel,engel1980,fontana,mays,krishna}. Operating reactor data from facilities such as \gls{fftf} can be used to validate Cardinal's OpenMC--NekRS--\gls{moose} coupling \cite{fftf}. 
+
+Validation of Cardinal is currently underway for several of these facilities. Our strategy is to progressively increase model complexity in tandem with experimental validation in order to isolate the effects of different model parameters. In the present study, we aim to isolate the effect of the wire wrap \gls{msm} by comparing Cardinal \gls{cht} predictions against {\it bare} Freon-12 pin bundle experiments conducted at the Research Center Karlsruhe in the 1990s \cite{cheng1998, cheng2009}. 
+
+Bare Freon-12 bundle data is relevant to the overarching objective of validating Cardinal for multi-physics modeling of wire-wrapped, sodium-cooled bundles. Because NekRS solves the incompressible Navier-Stokes equations in non-dimensional form, the data collected for a Freon-12 coolant simply represents flow data at particular Reynolds and Prandtl numbers. As will be discussed circa Table \ref{table:cases}, the Reynolds numbers for these experiments are representative of typical \gls{sfr} conditions, although the Prandtl number is several orders of magnitude higher. Nevertheless, validation against Freon-12 data will provide additional support for the data transfers and coupling methodology in Cardinal, which is independent of the particular flow conditions.
+
+This section describes the results of this \gls{cht} validation exercise. After describing the experimental facility, Section \ref{sec:cheng_mr} details the mesh refinement study and Section \ref{sec:cheng_results} then compares Cardinal temperature predictions with experimental data.
+
+The bare bundle experiments from Research Centre Karlsruhe were originally conducted to obtain critical heat flux data for tight-lattice \glspl{pwr}, and employed a Freon-12 working fluid due to its well-known properties and low latent heat \cite{freon}. Two 7-pin bundles were tested using different spacer designs, either a grid spacer or a wire wrap. In this section, only the spacer grid bundles are considered, whose geometric specifications are summarized in Table \ref{table:geom}. 
+
+\begin{table}[htb!]
+\caption{Geometric parameters for the 7-pin bundle experiments \cite{cheng2009}.}
+\centering
+\begin{tabular}{@{}lc@{}}
+\toprule
+Parameter & Value\\
+\midrule
+Test section length & \phantom{0}1.24 \si{\meter}\phantom{m}\\
+Heated length & \phantom{0}0.60 \si{\meter}\phantom{m}\\
+Hydraulic diameter, $D_h$ & \phantom{0}4.36 \si{\milli\meter}\\
+Pin diameter, $D_p$ & \phantom{0}9.50 \si{\milli\meter}\\
+Pin pitch, $P$ & 10.90 \si{\milli\meter}\\
+Pin-to-wall clearance & \phantom{0}1.40 \si{\milli\meter}\\
+\bottomrule
+\end{tabular}
+\label{table:geom}
+\end{table}
+
+The pins are heated electrically with a uniform axial distribution. The composition of each pin is shown in Fig. \ref{fig:heated_pin}.
+In each pin, eight thermocouples are embedded within the cladding, 15 \si{\milli\meter} from the exit of the heated section, in order to measure pin surface temperatures. The thermocouple positions are shown in Fig. \ref{fig:thermocouples}. %The embedded depth of the thermocouples is not specified, so all 
+Later plots of the experimental data on the pin surfaces will be depicted in terms of angles $\theta$ defined relative to the axes and directional arrows shown in white in Fig. \ref{fig:thermocouples}. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.3\linewidth]{figures/heated_rod.png}
+\caption{Material structure in each pin.}
+\label{fig:heated_pin}
+\end{figure}
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.5\linewidth]{figures/thermocouples.png}
+\caption{Thermocouple locations and angle definitions for the pins. An example $\theta=60^\circ$ is shown on the center pin.}
+\label{fig:thermocouples}
+\end{figure}
+
+%For the grid spacer bundle, the effect on the heated section is minimized by placing the nearest upstream grid spacer 270 \si{\milli\meter} away from the end of the heated section, or more than 60 times the hydraulic diameter. 
+
+Three different single-phase experiments were conducted, each with different heating configurations. These three experiments will be designated as cases $A$, $B$, and $C$, and are shown in Fig. \ref{fig:heating}. Red pins are heated, with uniform power distribution among the heated pins. Experimental pin surface temperatures were only reported for unheated rods.% in order to reduce the temperature distortion caused by the thermocouples being embedded a small distance within the cladding.
+The flow conditions for each case are summarized in Table \ref{table:cases}. It should be noted that the precise inlet temperatures and dimensionless numbers in Table \ref{table:cases} are either extracted from plots or back-calculated from other information in \cite{cheng2009}, and therefore may not be in perfect agreement with the experimental facility, although errors are expected to be small.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=\linewidth]{figures/heating.png}
+\caption{Pin heating configurations for the three single-phase experiments. Red pins are heated, with a uniform power distribution among the heated pins.}
+\label{fig:heating}
+\end{figure}
+
+\begin{table}[htb!]
+\caption{Summary of flow conditions for the single-phase experiments \cite{cheng2009}. Nondimensional numbers are evaluated based on average $\mu$, $C_p$, and $k$.}
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Parameter & Case $A$ & Case $B$ & Case $C$ \\
+\midrule
+Inlet temperature (\si{\celsius}) & -7.5 & 7.5 & 0.0\\
+%Mass flux (\si{\kilo\gram\per\square\meter\per\second}) & 4043 & 3980 & 3027\\
+Heater power (\si{\kilo\watt}) & 18.3 & 8.15 & 2.85\\
+Reynolds number & 58928 & 62937 & 44760\\
+Peclet number & 214873 & 217829 & 171800\\
+\bottomrule
+\end{tabular}
+\label{table:cases}
+\end{table}
+
+The NekRS model is constructed using a spectral element discretization of the $k$-$\tau$ \gls{rans} equations. 
+Because the NeKRS flow solution is decoupled from the energy equation by the incompressible, constant-property \gls{rans} model, isothermal NekRS simulations are first performed with periodic inlet/outlet \glspl{bc} to converge the flow. No-slip \glspl{bc} are applied on all walls. Next, the coupled \gls{cht} simulations are performed by transporting a temperature passive scalar on this ``frozen'' flow field with boundary coupling to BISON on the fluid-solid interfaces, again with all walls set to no-slip \glspl{bc}. This two-stage approach is a convenient technique to eliminate the complexity of setting turbulent flow inlet conditions by instead approximating the inlet flow as fully-developed. 
+
+\subsection{Mesh Refinement Study}
+\label{sec:cheng_mr}
+
+For each case, a refinement study is performed to ensure that the coupled NekRS-BISON simulation is mesh-independent. Two parameters are varied -- 1)~ the NekRS polynomial order $N$ ($p$--refinement) and 2)~the BISON uniform mesh refinement level $r$ ($h$--refinement). 
+%A reference solution is obtained for NekRS polynomial order $N=7$ (8$^3$ \gls{dof} per element) and a BISON heat conduction mesh that has been uniformly refined ($r=1$) relative to a baseline mesh ($r=0$). 
+%The simulations are progressively coarsened by repeating the runs for lower NekRS polynomial orders and coarser BISON meshes. 
+For brevity, the refinement study will only be presented for Case $A$, but identical rigor was pursued for Cases $B$ and $C$. Only a subset of the refinement study results will be shown, as many different quantities were monitored for convergence.
+
+Because the \gls{cht} simulation is conducted in two stages (isothermal periodic flow, followed by temperature-transport), the mesh refinement study is for convenience also conducted in two stages that mimic the overall simulation strategy. In Stage I, isothermal flow is converged to a steady state, and $N$ is selected to sufficiently resolve velocity, $k$, and $\tau$. In Stage II, the coupled \gls{cht} is converged to a steady state using the converged velocity and $\mu_T$ from Stage I. Because $Pr>1$, thermal simulations are conducted for the $N$ selected in Stage I as well as $N+2$ in order to provide additional refinement in the temperature transport. After selecting $N$, the BISON mesh is then uniformly coarsened and temperatures compared between $r$ values to confirm that the solid mesh is also sufficiently refined. Brief details on these refinement studies are now presented.
+
+%it is possible that Stage II will reveal that a higher NekRS polynomial order is required to converge the temperature than strictly needed to converge the flow, in which case additional higher-order $N$ will be appended to the Stage I study.
+
+\subsubsection{Stage I: Flow Refinement}
+
+First, several metrics are monitored in time to ensure steady state. Temporal convergence is assessed based on the relative difference in $\Delta P/\Delta L$ and the maximum $V_z$, $k$, and $\tau$ between two successive checkpoint steps. 
+As an example, Fig. \ref{fig:n5_steady} shows the relative difference in these four quantities as a function of time for polynomial order $N=7$. Temporal convergence is defined to occur once the relative change from the previous checkpoint is smaller than $5\times10^{-3}$. Steady state is obtained after approximately 2.5 flow-through times, or the time for the flow to completely traverse the axial extent of the bundle 2.5 times.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/n7_time.pdf}
+\caption{Time evolution of the flow for $N=7$. The relative difference at time $t^n$ is computed relative to the solution at time $t^{n-1}$. The $y$-axis is cut off at $10^{-5}$.}
+\label{fig:n5_steady}
+\end{figure}
+
+After ensuring steady state, spatial convergence is then assessed based on the relative L$^2$ norm in $V_z$, $k$, and $\tau$ along the line $y=0$ (shown in red in Fig. \ref{fig:thermocouples}) between two successive polynomial orders. For each choice of $N$, spatial convergence is defined to occur once the relative L$^2$ norms are less than $5\times10^{-3}$. As an example, Fig. \ref{fig:N_convergence} shows these fields for each choice of $N$. Spatial convergence is obtained for both $N=5$ and $N=7$. 
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/Vz.pdf}
+  \caption{$V_z$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/k.pdf}
+  \caption{$k$}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/tau.pdf}
+  \caption{$\tau$}
+\end{subfigure}
+\caption{(a) $V_z$, (b) $k$, and (c) $\tau$ along the line $y=0$ as a function of NekRS polynomial order $N$. All axes are shown in non-dimensional units.}
+\label{fig:N_convergence}
+\end{figure}
+
+\subsubsection{Stage II: Thermal Refinement}
+
+The \gls{cht} simulations are now conducted using the converged flow simulations from Stage I for $N=5$, 7, and 9 (an additional higher polynomial order to ensure that the $Pr>1$ flow has sufficiently resolved thermal boundary layers). 
+Temporal convergence is first assessed using \gls{moose}'s automatic steady state detection features. Temporal convergence is defined as the point at which the relative L$^2$ norm of the {\it entire} temperature solution $T$ 
+(solid temperature from BISON, fluid temperature from NekRS) is smaller than a user-specified tolerance. Conceptually, this can be represented as
+
+\begin{equation}
+\label{eq:T}
+T\equiv\begin{bmatrix}T_s \\ T_f\end{bmatrix}\ ,
+\end{equation}
+
+where $T_s$ and $T_f$ are themselves vectors with lengths depending on the number of \gls{dof} in each application. Temporal convergence therefore occurs when the relative norm in $T$ is less than $5\times10^{-3}$, and the simulation automatically terminates at this point. 
+
+After ensuring steady state, spatial refinement is then assessed to determine an appropriate NekRS polynomial order $N$ and BISON mesh refinement level $r$. Spatial convergence in $N$ is assessed based on the relative L$^2$ norm in $T_f$ along the line $y=0$ at the axial elevation of the thermocouples, between two successive polynomial orders and when using a very fine BISON mesh. This criteria is analogous to that shown previously in Fig. \ref{fig:N_convergence} for the Stage I refinement study. The outcome of this investigation shows that the flow is thermally refined for $N=7$. Next, the BISON mesh is progressively coarsened by halving the number of radial, azimuthal, and axial division in a cylindrical structured mesh to show that the finest mesh is thermally converged.
+
+Fig. \ref{fig:cheng_mesh} shows the converged solid mesh (multiple colors) and the converged NekRS mesh (gray region). Note that each NekRS element has $8^3=512$ \gls{dof}, and therefore actually has a much finer solution representation than the element boundaries shown in Fig. \ref{fig:cheng_mesh}. The fluid and solid meshes are then extruded in the axial direction into 120 layers.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.5\linewidth]{figures/cheng_mesh.png}
+\caption{Converged solid and fluid meshes for the 7-pin bare bundle experiment simulations.}
+\label{fig:cheng_mesh}
+\end{figure}
+
+\subsection{Results}
+\label{sec:cheng_results}
+
+This section compares the Cardinal \gls{cfd} simulations with the experimental temperature data. To provide additional comparisons, Cardinal is also compared against ANSYS \gls{cfd} simulations conducted by Cheng et al. \cite{cheng2009}. Fig. \ref{fig:velocity} shows the (non-dimensional) NekRS axial velocity $V_z$, $k$, and $\tau$ for case B, the highest-$Re$ case. These fields are qualitatively very similar for cases A and C and for brevity are not shown. These fields all display expected behavior for pin bundles. For a $P/D$ of 1.14, the hydraulic diameters of the channels increase as $D_{h,\text{corner}}<D_{h,\text{interior}}<D_{h,\text{edge}}$, which is reflected in the axial velocity distribution and qualitatively matches other \gls{cfd} simulations for hexagonal pin bundles \cite{chang_2017}. % TODO: check these hydraulic diameters
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/case_B_Vz.png}
+  \caption{$V_z$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/case_B_k.png}
+  \caption{$k$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/case_B_tau.png}
+  \caption{$\tau$}
+\end{subfigure}
+\caption{NekRS predictions for (a) $V_z$, (b) $k$, and (c) $\tau$ for case B, all in non-dimensional units.}
+\label{fig:velocity}
+\end{figure}
+
+Fig. \ref{fig:solid_t} shows the BISON solid temperature for each case on a shared color scale. Recall that the inlet temperature is different for each case, which influences the shared-color-scale representation shown in Fig. \ref{fig:solid_t}. Contours are shown in the unheated pins to illustrate the effect of \gls{cht}. Sharp jumps occur in the contours at the boundaries between the different pin regions where thermal conductivities change. 
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/cheng/hm1_solidT.png}
+  \caption{Case $A$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/cheng/hm2_solidT.png}
+  \caption{Case $B$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/cheng/hm3_solidT.png}
+  \caption{Case $C$}
+\end{subfigure}
+\caption{BISON solid temperature for case $A$, $B$, and $C$.}
+\label{fig:solid_t}
+\end{figure}
+
+Fig. \ref{fig:fluid_t} shows the NekRS fluid temperature at the thermocouple measurement plane. For each case, the temperature is normalized to the range $[0, 1]$ with the transformation
+
+\begin{equation}
+\label{eq:tstar}
+T^*=\frac{T-T_\text{min}}{T_\text{max}-T_\text{min}}\ ,
+\end{equation}
+
+\noindent where $T_\text{min}$ and $T_\text{max}$ are the minimum and maximum temperatures on the plane, respectively. Fluid temperatures are highest at the narrow pin-pin gaps due to the lower velocity in these regions. The $Pr>1$ results in thin thermal boundary layers, which are not visible without significant zoom in Fig. \ref{fig:fluid_t}.
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/cheng/hm1_fluidT.png}
+  \caption{Case $A$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/cheng/hm2_fluidT.png}
+  \caption{Case $B$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+ \includegraphics[width=\linewidth]{figures/cheng/hm3_fluidT.png}
+  \caption{Case $C$}
+\end{subfigure}
+\caption{Normalized NekRS fluid temperature $T^*$ defined in Eq. \eqref{eq:tstar} for case $A$, $B$, and $C$.}
+\label{fig:fluid_t}
+\end{figure}
+
+Finally, Figs. \ref{fig:validationa}--\ref{fig:validationc} compare the surface temperature of the unheated pins with the experimental data, as well as the \gls{cfd} simulations conducted by Cheng et al. using ANSYS and the Speziale \gls{rsm} \cite{cheng2009}. The $x$-axes are shown in terms of the pin angles in Fig. \ref{fig:thermocouples}. Error bars are shown on the experimental data to denote the as-stated thermocouple accuracy of $<1.2$\si{\celsius}. 
+
+Cardinal predicts the experimental data fairly well. Across all thermocouple measurements, Cardinal predicts 73.4\% of points within the experimental accuracy, and 90.6\% of points within $2\times$ the experimental accuracy. For data collected on pins 4 and 7 (only applicable to Case $B$ in Fig. \ref{fig:validationb}), Cardinal gives an excellent prediction of the experimental data, with all predictions lying within experimental accuracy. 
+For data collected on pins 2 and 3, the agreement between Cardinal and the experimental data is less favorable.
+Both Cardinal and Cheng et al. tend to underpredict temperatures at the narrow pin-pin gap at $\theta=0$, but show reasonable accuracy for thermocouples facing the duct. Cardinal tends to predict lower min/max temperatures as compared to Cheng et al., giving better predictions for thermocouples facing the duct, but underprediction of peak clad temperatures. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.45\linewidth]{figures/case1.pdf}
+\caption{Pin surface temperature predicted by Cardinal and Cheng et al. \cite{cheng2009} for pins 2 and 3 in case $A$.}
+\label{fig:validationa}
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/case2a.pdf}
+  \caption{Pins 2 and 3}
+\end{subfigure}
+\begin{subfigure}{0.45\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/case2b.pdf}
+  \caption{Pins 4 and 7}
+\end{subfigure}
+\caption{Pin surface temperature predicted by Cardinal and Cheng et al. \cite{cheng2009} for (a) pins 2 and 3 and (b) pins 4 and 7 in case $B$.}
+\label{fig:validationb}
+\end{figure}
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.45\linewidth]{figures/case3.pdf}
+\caption{Pin surface temperature predicted by Cardinal and Cheng et al. \cite{cheng2009} for pins 2 and 3 in case $C$.}
+\label{fig:validationc}
+\end{figure}
+
+The predictions of Cheng et al. could loosely be considered a better predictor of metrics related to peak clad temperatures, while Cardinal could loosely be considered a better predictor of duct temperatures, which drive the core bowing phenomenon. Rather than attempting to rank the Cardinal and Cheng et al. simulations based on these different effects, we simply report the normalized RMS error $err$ in Table \ref{table:global}, defined as
+
+\begin{equation}
+err=\frac{\dot{m}C_p}{q}\sqrt{\frac{\sum_{i=1}^{n_t} \left\lbrack T_\text{cfd}(x_i)-T_\text{exp}(i)\right\rbrack^2}{n_t}}\ ,
+\end{equation}
+
+where $n_t$ is the number of thermocouples per pin, $T_\text{cfd}(x_i)$ is the \gls{cfd} solution at the $i$-th thermocouple, and $T_\text{exp}(i)$ is the experimental measurement at the $i$-th thermocouple. For normalization, $q/\dot{m}C_p$ is the nominal bulk temperature rise.
+
+Both Cardinal and Cheng et al.'s ANSYS simulations show very similar RMS errors for pin surface temperatures. The normalized RMS errors for case $C$ are higher than for the other cases only because the nominal temperature rise is only 3.5\si{\celsius}, such that errors on the order of a few degrees are high once normalized.
+
+\begin{table}[htb!]
+\caption{RMS error norms for the Cardinal and Cheng et al. ANSYS simulations \cite{cheng2009}. A ``---'' indicates that experimental data is not available or was not reported.}
+\centering
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{\bf Case $A$} & \multicolumn{2}{c}{\bf Case $B$} & \multicolumn{2}{c}{\bf Case $C$} \\
+Pin & Cardinal & ANSYS & Cardinal & ANSYS & Cardinal & ANSYS\\
+\midrule
+2 & 0.121 & 0.125 & 0.136 & 0.125 & 0.284 & 0.296\\
+3 & 0.147 & 0.150 & 0.162 & 0.162 & 0.450 & 0.464\\
+4 & --- & --- & 0.095 & --- & --- & ---\\
+7 & --- & --- & 0.061 & --- & --- & ---\\
+\bottomrule
+\end{tabular}
+\label{table:global}
+\end{table}
+
+A more thorough verification and validation exercise should incorporate uncertainty quantification to provide confidence intervals for the Cardinal simulations and assess the combined impact of multiple input uncertainties on solid thermophysical properties, geometric dimensions, and other parameters. In future work, we plan to integrate Cardinal with \gls{moose}'s stochastic tools module to streamline such calculations \cite{stochastic_tools}.
+
+In addition to uncertainties in various model parameters, there are a number of additional sources of error. While pins 2 and 3 should have symmetric temperature distributions, at several angles (most notably at $\theta=160^\text{o}$ for case $A$), thermocouple measurements differ significantly. These apparent asymmetries could suggest perturbations in the thermocouple positions relative to the as-designed experiment or inaccurate readings. In addition, the NekRS model used a constant-property \gls{rans} model, which neglected any thermophysical property variations with temperature and pressure. Nominal temperature rises for the three experiments ranged from about 3.5 -- 14.5\si{\celsius}, and such property-related errors are expected to be small. In addition, the insulated thermal \glspl{bc} assumed on the outer boundary do not account for any heat loss to the surroundings. 
+
+Given that uncertainty quantification is deferred to future work, these results suggest that Cardinal is able to reasonably well predict pin surface temperatures in bare hexagonal bundles. This validation exercise provides reasonable confidence in the implementation of data transfers and other software details needed to conduct multiphysics modeling of a more complex wire-wrapped \gls{sfr} bundle in Section \ref{sec:coupled}.
+
+\begin{comment}
+\section{Wire Wrap Bundle Verification}
+\label{sec:areva}
+
+Next, Cardinal is validated against water-cooled, electrically-heated wire wrap experiments conducted by AREVA in collaboration with Terrapower, Texas A\&M University, and \gls{anl} through a \gls{doe} project \cite{mays}. In this experiment, a 61-pin bundle is electrically heated at a Reynolds number of 20296. Over 300 thermocouples within the heated pins, at the pin-fluid interfaces, and on the duct inner surface collected temperature measurements with sufficient detail to validate \gls{cfd} methods. Over 30 pressure taps also measured pressure over both integer and partial wire pitch lengths, with taps located on different duct faces in order to measure the expected cross-bundle pressure gradient arising from the wire. 
+
+%To be consistent with the data presentation in the benchmark report \cite{mays}, all planar images in this section are shown in the ``bottom-looking-up'' orientation, such that the wire wrap is clockwise when looking in the direction of fluid flow. 
+The bundle contains 61 wire-wrapped pins, of which 18 are heated, 42 are unheated, and 1 is a failed heater pin (with the same construction as the 18 heated pins, but with an inactive heater element). Temperatures were measured with over 300 thermocouples located within the pins, on the pin surfaces, and on the duct inner walls. Pressures were measured with over 30 pressure taps mostly located on the duct inner wall surfaces.
+
+The geometric parameters are given in Table \ref{table:areva}, and correspond to the as-built measurements with a few minor simplifications noted with asterisks. The heated and un-heated pins in the as-built facility have outer diameters that differ by 0.05672 \si{\milli\meter}, or 0.6\%. For simplicity, the \gls{cfd} model treats both the heated and un-heated pins with the same outer diameter taken as the average of the two values. The diameter of the un-heated pins is within the manufacturing tolerance of the heated pins \cite{mays}, so this approximation is expected to have minor effects.
+
+The actual bundle is about 14.8$L_w$ tall, which consists of a $4L_w$ development (unheated) region, a $6L_w$ heated measurement region, a $2L_w$ unheated measurement region, and a $2.8L_w$ exit length. Thermocouples are located within the heated measurement region as well as in the unheated measurement region downstream of the heated region. 
+Due to the use of a frozen periodic pressure-velocity solution from an isothermal solution, the NekRS velocity and pressure solution is identical for each wire pitch, and does not require any flow development region (though an entrance region is still useful for \gls{cht} simulations to obtain a more accurate fluid-solid wall \gls{bc} at the bottom of the heated region). Therefore, the NekRS model instead uses an entrance length of 1$L_w$ and an exit length of $0L_w$. A comparison between the axial regions in the experimental facility and NekRS model is shown in Fig. \ref{fig:axial}. In this work, all axial elevations will be quoted relative to the start of the heated section, such that $z=L_w/2$ is a half wire pitch above the start of the heated section.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/bundle_axial.png}
+\caption{Comparison between the axial regions in the experiment (left) and in the NekRS \gls{cfd} model (right)}
+\label{fig:axial}
+\end{figure}
+
+The rods are heated with a cosine axial distribution in groups by 4 different heater banks, as shown in Fi
+g. \ref{fig:bundle}. The powers for each bank are summarized in Table \ref{table:areva_specs}, giving a total system power of 409.692 \si{\kilo\watt}.
+In the present computational model, the heaters themselves are not modeled, and instead a heat flux is imposed on the sheath inner diameter. An insulated condition is applied on the inner tubing surface of the unheated pins.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.8\linewidth]{figures/bundle.png}
+\caption{Heated pin configuration for the 61-pin wire wrap bundle experiment, looking in the $+z$ direction. Colors indicate the clad region of the heated pins according to heater bank. The wire wrap and the its wrapping direction are shown for the topmost pin.}
+\label{fig:bundle}
+\end{figure}
+
+\begin{table}[htb!]
+\caption{Geometric and material parameters for the 61-pin wire wrap bundle experiments \cite{mays}. Quantities with a $*$ superscript indicate quantities assumed for the NekRS simulations that differ from the actual facility specifications with justifications provided in the text.}
+\centering
+\begin{tabular}{@{}ll@{}}
+\toprule
+Parameter & Value\\
+\midrule
+Number of pins & 61\\
+Duct inner flat-to-flat & 0.092\phantom{00} \si{\meter}\\
+Pin pitch, $P$ & 11.2769 \si{\milli\meter}\\
+Wire diameter, $D_w$ & 1.7062\phantom{0} \si{\milli\meter}\\
+Wire pitch, $L_w$ & 0.28499 \si{\meter}\phantom{m}\\
+Duct corner radius of curvature & 6.858\phantom{00} \si{\milli\meter}\\
+%Hydraulic diameter, $D_h$ & 4.556\phantom{00} \si{\milli\meter}\\
+Wire wrap direction along $+z$ & clockwise\\
+\\
+\underline{\it Axial Sections:}\\
+Entrance length$^*$ & 0.28499 \si{\meter}\phantom{m}\\ % 1 wire pitch
+Heated length & 1.70264 \si{\meter}\\ % 5.97 wire pitches
+Unheated length & 0.57853 \si{\meter}\\ % 2.03 times the wire pitch
+Exit length$^*$ & 0.0\phantom{0000} \si{\meter}\\
+\\
+\underline{\it Heated Pins:}\\
+Clad outer diameter$^*$ & 9.54236 \si{\milli\meter}\\
+Clad inner diameter & 8.509\phantom{00} \si{\milli\meter}\\
+Sheath inner diameter & 6.7818\phantom{0} \si{\milli\meter}\\
+Clad material & Monel K500\\
+Sheath material & Monel K500\\
+\\
+\underline{\it Non-heated Pins:}\\
+Clad outer diameter$^*$ & 9.54236 \si{\milli\meter}\\
+Clad inner diameter & 6.26872 \si{\milli\meter}\\
+Tube material & SS304\\
+\bottomrule
+\end{tabular}
+\label{table:areva}
+\end{table}
+
+Because NekRS's $k$-$\tau$ model is currently limited to constant-property flows, the fluid density, specific heat, thermal conductivity, and viscosity are set as constants at the inlet conditions.
+
+\begin{table}[htb!]
+\caption{Summary of flow conditions for the Areva heated bundle experiment \cite{mays}. The Reynolds and Peclet numbers are both based on $D_h$.}
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Parameter & Value\\
+\midrule
+Inlet temperature & 32.07 \si{\celsius}\\
+System pressure & 120.42 psia\\
+Inlet flowrate & \phantom{0}9.53 \si{\kilo\gram\per\second}\\
+%Inlet flowrate (computational) & 10.01 \si{\kilo\gram\per\second}\\
+Rod power, bank 1 & 22.643 \si{\kilo\watt}\\
+Rod power, bank 2 & 22.845 \si{\kilo\watt}\\
+Rod power, bank 3 & 22.747 \si{\kilo\watt}\\
+Rod power, bank 4 & 22.801 \si{\kilo\watt}\\
+Reynolds number & 20296\\
+Peclet number & 104363\\
+\bottomrule
+\end{tabular}
+\label{table:areva_specs}
+\end{table}
+
+\subsection{Mesh Refinement Study}
+
+A refinement study is performed to ensure that the coupled NekRS-BISON simulation is mesh-independent. The procedure is similar to that followed for the bare 7-pin bundle in Section \ref{sec:cheng_mr}. Two parameters are varied -- 1)~the NeKRS polynomial order $N$ ($p$-refinement) and 2)~ the BISON uniform mesh refinement level $r$ ($h$-refinement). A reference solution is obtained for NekRS polynomial order $N=9$ (8$^3$ \gls{dof} per element) and a BISON heat conduction mesh that has been uniformly refined ($r=1$) relative to a baseline mesh ($r=0$). The simulations are then progressively coarsened by repeating the runs for lower NekRS polynomial orders and coarser BISON meshes. 
+
+Because the NekRS flow solution is decoupled from the energy equation by the incompressible, constant-property $k$-$\tau$ \gls{rans} model, the mesh refinement study is conducted in two stages. In Stage I, isothermal flow is first converged to a steady state with sufficient refinement in $N$ to resolve velocity, $k$, and $\tau$. In Stage II, the coupled \gls{cht} is converged to a steady state that adequately resolves fluid and solid temperatures by using the converged velocity and $\mu_T$ from Stage I. Because $Pr>1$, it is possible that Stage II will reveal that a higher NekRS polynomial order is required to converge the temperature than strictly needed to converge the flow, in which case additional higher-order $N$ will be appended to the Stage I study. 
+
+After ensuring that the mesh is properly resolved to capture the flow and heat transfer, an additional third verification stage is pursued by comparing predictions of friction factors and Nusselt numbers against well-established correlations from the literature. The purpose of this additional verification is to provide extra confidence in the implementation of the \gls{msm}, as there are a number of technical details not adequately defined by Hu and Fanning \cite{hu2013}. For example, in previous works with the Hu and Fanning \gls{msm} \cite{hu2013,martin2020}, the inlet $\dot{m}$ has been artificially increased as
+
+\begin{equation}
+\label{eq:adj}
+\dot{m}_\text{CFD}=\dot{m}\frac{A_\text{CFD}}{A}
+\end{equation}
+
+where $\dot{m}$ and $A$ are the actual inlet flowrate and flow area of the wire-wrapped experiment, while $\dot{m}_\text{CFD}$ and $A_\text{CFD}$ are the imposed flowrate and flow area in the ``bare'' \gls{msm} mesh. However, in other coarse-mesh \gls{cfd} applications where the mesh does not necessarily reflect the ``true'' system (such as the application of the porous media method to \glspl{pbr}), there is no artificial modification of mass flow \glspl{bc}. Applying Eq. \eqref{eq:adj} would artificially increase the total mass flowrate, which would reduce the bulk fluid temperature rise and possibly bias the comparison between \gls{cfd} predictions and experimental data. In addition, the constant $C$ in Eq. \eqref{eq:msm2} is accompanied with vague guidance on choosing this parameter, which might influence the validation results. The objective of the Stage 3 verification is to answer implementation details such as these before proceeding to the experimental validation in Section \ref{sec:results_areva}.
+
+\subsubsection{Stage 1: Flow Refinement}
+
+First, several metrics are monitored in time to ensure that the flow solutions have reached a steady state. Temporal convergence is based on the relative difference in the $\Delta P/\Delta L$  and the maximum $V_x$, $V_y$, $V_z$, $k$, and $\tau$ between two successive checkpoint steps. As an example, Figure \ref{fig:n5_steady_areva} shows the relative difference in these quantities for $N=3$.
+These temporal convergence results are shown for $N=3$ because the higher-order $N$ solutions are restarted from the lower-$N$ solutions in order to reduce overall computing time, which would truncate the $x$-axis in Fig. \ref{fig:n5_steady_areva} and less clearly show the gradual temporal convergence. 
+
+Compared with the bare bundle case presented earlier, a longer simulation time was required to reach steady conditions, especially for the transverse velocity components, which did not display monotonic convergence in time. The convergence criteria was slightly tightened to require continuous temporal convergence for at least an entire flow-through period. Steady conditions were obtained for each choice of $N$ in about six flow-through times. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/temporal_n3_areva.pdf}
+\caption{Time evolution of the flow for $N=3$. The relative difference at time $t^n$ is computed relative to the solution at time $t^{n-1}$. The $y$-axis is cut off at $10^{-5}$ to clarify data presentation.}
+\label{fig:n5_steady_areva}
+\end{figure}
+
+After ensuring steady state for each choice of $N$, spatial convergence is then assessed based on the relative L$^2$ norm in $V_x$, $V_y$, $V_z$, $k$, and $\tau$ along the red dashed line shown in Fig. \ref{fig:bundle} between two successive polynomial orders and at three different elevations -- $L_w/4$, $L_w/2$, and $3L_w/4$. For each choice of $N$, spatial convergence is defined to occur once the relative L$^2$ norm in each of the aforementioned fields is less than $5\times10^{-3}$. As an example, Fig. \ref{fig:line_areva} shows these fields along the red dashed line in Fig. \ref{fig:bundle} for each choice of $N$ at $z=L_w/2$. The gray highlighted regions indicate the solid pins. Spatial convergence is obtained for $N=7$. 
+
+\begin{figure}[!htb]
+\centering
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/Vx_line.pdf}
+  \caption{$V_x$}
+\end{subfigure}
+\begin{subfigure}{0.33\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/Vy_line.pdf}
+  \caption{$V_y$}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/Vz_line.pdf}
+  \caption{$V_z$}
+\end{subfigure}
+\begin{subfigure}{0.315\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/k_line.pdf}
+  \caption{$k$}
+\end{subfigure}
+\begin{subfigure}{0.3\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{figures/tau_line.pdf}
+  \caption{$\tau$}
+\end{subfigure}
+\caption{(a) $V_x$, (b) $V_y$, (c) $V_z$, (d) $k$, and (e) $\tau$ along the red dashed line defined in Fig. \ref{fig:bundle} as a function of NekRS polynomial order $N$. All axes are shown in non-dimensional units.}
+\label{fig:line_areva}
+\end{figure}
+
+%The mesh used to obtain the results in Fig. \ref{fig:line_areva} used 25 elements per wire pitch. For $N=7$, this corresponds to an axial discretization with 175 \gls{gll} points per wire pitch. However, Martin et al. found that only 120 points per wire pitch were necessary and we also expect that a coarser axial discretization is allowable in this system.  To determine the minimum number of axial layers required, the flow simulations are repeated for $N=7$ for 15, 18, 20, and 25 axial layers. With 15 layers, even though the mesh was coarser, the simulation took much longer to converge due to high pressure iteration counts and was therefore discarded as a modeling option. 
+
+\subsubsection{Stage 2: Thermal Refinement}
+
+The \gls{cht} simulations are now conducted using the converged flow simulations from Stage I. Temporal convergence is again assessed using \gls{moose}'s automatic steady state detection features. Temporal convergence is defined as the point at which the relative L$^2$ norm of the entire temperature solution $T$, as defined in Eq. \eqref{eq:T}, is less than $5\times10^{-3}$. The simulation automatically terminates once reaching this point.
+
+After ensuring steady state, spatial refinement is then assessed to determine an appropriate NekRS polynomial order $N$ and BISON mesh refinement level $r$. Spatial convergence in $N$ is assessed based on the relative L$^2$ norm in $T_f$ along the red dashed line shown in Fig. \ref{fig:bundle} at $z=L_w/2$, between two successive polynomial orders and when using a very fine BISON mesh. This criteria is analogous to that shown previously in Fig. \ref{fig:line_areva} for the Stage I refinement study.
+
+\subsubsection{Stage 3: Comparison with Correlations}
+\label{sec:Cstudy}
+
+The \gls{msm} is verified by comparing friction factors and Nusselt numbers against well-established correlations from the literature. 
+In Fig. \ref{fig:friction}, the friction factor predicted by NekRS is compared against the simplified Cheng and Todreas correlation \cite{cheng} for $Re=2500$, $5000$, $10000$, $15000$, and $20296$. The shaded tan area shows the $\pm\ 15\%$ band around the Cheng and Todreas to show the correlation accuracy \cite{mays}. Overall, there is a decent agreement between NekRS and the Cheng and Todreas correlation, with an average error of $-$7.83\%. Typical predictive accuracy of various 2-equation \gls{rans} models is usually in the range of 1--20\% for the Cheng and Todreas correlation \cite{mays,hamman,martin2020,brockmeyer}, both for explicit wire-wrap cases and momentum source approximations, and NekRS's $k$-$\tau$ model falls into this range. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/friction.pdf}
+\caption{Friction factors predicted by NekRS (dots) and the simplified Cheng and Todreas correlation (line) for the 61-pin wire-wrap bundle with specifications given in Table \ref{table:areva}.}
+\label{fig:friction}
+\end{figure}
+
+The friction factor predictions were repeated for $C=2.0$, $C=3.0$ (the original selection), and $C=4.0$. Less than 1\% difference was observed in $\Delta P/\Delta L$ among these choices, so the value $C=3.0$ used by Hu and Fanning \cite{hu2013} is used for all further simulations. Likewise, the friction factor predictions were also repeated by artificially augmenting the inlet velocity according to Eq. \eqref{eq:adj}, which led to higher errors than shown in Fig. \ref{fig:friction}. Artificially increasing the inlet velocity also requires adjustments to the temperature predictions because the nominal $\Delta T$ across the bundle will be proportionally reduced. For both of these reasons, the inlet mass flow into the bundle is simply matched to the experimental value, and Eq. \eqref{eq:adj} is discarded from the model.
+
+In Fig. \ref{fig:Nu}, the Nusselt number predicted by NekRS (with the experimental working fluid of water replaced by sodium in the computational model) is compared against the Mikityuk correlation \cite{mikityuk} for $Re=2500$, $5000$, $10000$, $15000$, and $20296$. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+%\includegraphics[width=0.6\linewidth]{figures/friction.pdf}
+\caption{Nusselt numbers predicted by NekRS (dots) and the Mikityuk correlation (line) for the 61-pin wire-wrap bundle with specifications given in Table \ref{table:areva}, but with the water working fluid replaced by sodium.}
+\label{fig:Nu}
+\end{figure}
+
+\begin{table}[htb!]
+\caption{Comparison between NekRS friction factor predictions in comparison to the Mikityuk correlation \cite{mikityuk} for different values of $C$.}
+\centering
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$C$ in Eq. \eqref{eq:msm2} & Average Error (\%) & Maximum Error (\%)\\
+\midrule
+3.0 & \\
+4.0 & \\
+5.0 & \\
+\bottomrule
+\end{tabular}
+\label{table:nu}
+\end{table}
+
+\subsection{Results}
+\label{sec:results_areva}
+
+\subsubsection{Velocity}
+
+
+
+\subsubsection{Pressure}
+
+Fig. \ref{fig:p} shows the pressure predicted by NekRS over one wire pitch. 
+
+Pressure drops are presented in the benchmark report in terms of sets of paired taps. For example, consider three axial planes $z_1<z_2<z_3$ and two pressure taps -- the first measures $\Delta P_{1,3}\equiv P(z_1)-P(z_3)$ and the second measures $\Delta P_{2,3}\equiv P(z_2)-P(z_3)$. The pressure drop between $z_1$ and $z_2$ is deduced from the reported experimental data as
+
+\begin{equation}
+\Delta P_{1,2}=\Delta P_{1,3}-\Delta P_{2,3}\ .
+\end{equation}
+
+Depending on the particular $z$ coordinates, up to six different pressure tap measurements need to be combined to extract the pressure drop between adjacent axial planes in the bundle. Different pressure tap measurements are combined to obtain $\Delta P$ over integer $L_w$ axial segments vs. their fractional components. There are also sometimes multiple ``paths'' to obtain the same $\Delta P_{ij}$, in which case the combination with the lowest uncertainty is used. Therefore, $\Delta P_{1,4}$ will not {\it necessarily} equal the sum of $\Delta P_{1,2}$, $\Delta P_{2,3}$, and $\Delta P_{3,4}$ if $\Delta P_{1,4}$ can be obtained from a different set of tap measurements which have lower uncertainty. 
+
+Most duct pressure measurements were obtained on face B, shown in Fig. \ref{fig:bundle}. 
+Table \ref{table:pressure} compares the \gls{cfd} predictions and experimental measurements for $\Delta P$ across various axial segments in the bundle as measured on face B. The first two columns denote different axial segments, in either integer or fractional multiples of the wire pitch. Also shown for comparison are the \gls{cfd} predictions of \cite{martin2020} using STAR-CCM+. Because the NekRS domain uses constant fluid thermophysical properties and periodic inlet/outlet boundary conditions, the pressure drop over each axial segment of length $L_w$ is identical. Therefore, NekRS pressure predictions can be included even for $z\leq -1.0L_w$ (which was excluded from the \gls{cfd} model for simplicity) because the pressure is periodic over each wire pitch.
+
+\begin{table}[htb!]
+\caption{Comparison between NekRS (this work) and STAR-CCM+ \cite{martin2020} \gls{cfd} predictions and experimental data for pressure drops on duct face B. Axial segments are shown relative to the start of the heated section. A ``---'' indicates that the data is not available.} %Some uncertainty values reported by \cite{martin2020} differ from those shown here; for lack of other information, we use uncertainties computed directly from the benchmark data \cite{mays}.
+\centering
+\begin{tabular}{@{}ccccccccc@{}}
+\toprule
+ &  & & \multicolumn{2}{c}{\textbf{\textit{ NekRS}}} &  \multicolumn{2}{c}{\textbf{\textit{ STAR-CCM+ }}} \\
+Segment & \# $L_w$ & $\Delta P_\text{\ Exp.}$ (Pa) & $\Delta P$ (Pa) & Error (\%) &  $\Delta P$ (Pa) & Error (\%) \\
+\midrule
+$-4.0L_w$ to $-3.0L_w$ & 1.00 &  \phantom{0}9103 $\pm\ \phantom{0}78$ & \phantom{0}9325 & \phantom{0}$+2.4$& \phantom{0}9711 & $+\phantom{0}6.7$\\
+$-3.0L_w$ to $-2.0L_w$ & 1.00 & 10049 $\pm\ 174$& \phantom{0}9325 &  \phantom{0}$-7.2$ & \phantom{0}9630 & $-\phantom{0}4.2$\\
+$-3.00L_w$ to $-2.66L_w$ & 0.33 & \phantom{0}5666 $\pm\ 174$ & \phantom{0}2569 & $-54.7$ & --- & ---\\
+ $-2.66L_w$ to $-2.33L_w$ & 0.33 & \phantom{0}2447 $\pm\ \phantom{0}39$ & \phantom{0}3241 & $+32.4$ & --- & ---\\
+$-2.33L_w$ to $-2.00L_w $ & 0.33 & \phantom{0}1989 $\pm\ 263$ & \phantom{0}3515 &$+76.7$  & --- & ---\\
+$-2.0L_w$ to $\phantom{+}0.0L_w$ & 2.00 & 20073 $\pm\ 400$& 18650 & \phantom{0}$-7.1$ & --- & ---\\
+$-2.0L_w$ to $-1.5L_w$ & 0.50 & \phantom{0}7812 $\pm\ 249$ & \phantom{0}5276 & $-32.5$  & --- & ---\\
+$-1.5L_w$ to $-0.5L_w$ & 1.00 & 10115 $\pm\ 146$ & \phantom{0}9325 & \phantom{0}$-7.8$ & \phantom{0}9565 & $-\phantom{0}5.4$\\ 
+$-0.5L_w$ to $+0.5L_w$ & 1.00 & \phantom{0}9859 $\pm\ 233$ & \phantom{0}9325 & \phantom{0}$-5.4$ & \phantom{0}9535 & $-\phantom{0}3.3$\\
+$-0.5L_w$ to $\phantom{+}0.0L_w$ & 0.50 & \phantom{0}2146 $\pm\ 345$ & \phantom{0}4049 & $+88.7$ & \phantom{0}1162 & $-45.9$\\
+% $\phantom{+}0.0L_w$ to $+2.0L_w$ & & & & --- & ---\\ % Couldn't actually get this one from the data
+$\phantom{+}0.0L_w$ to $+3.0L_w$ & 3.00 & 29147 $\pm\ 194$ & 27975 & $-4.0$ &   28570 & $-\phantom{0}2.0$\\
+$\phantom{+}0.0L_w$ to $+0.5L_w$ & 0.50 & \phantom{0}7713 $\pm\ 417$ & \phantom{0}5276 & $-31.6$& \phantom{0}8373 & $+\phantom{0}8.6$\\
+%$\phantom{+}2.0L_w$ to $+3.0L_w$ & & 20073 $\pm\ 754$\\ % Couldn't actually get this one from the data
+%$\phantom{+}3.0L_w$ to $+6.0L_w$ & \\ % Couldn't actually get this one from the data
+%& $\phantom{+}3.0L_w$ to $+4.33L_w$ & \\ % Couldn't actually get this one from the data
+%& $\phantom{+}4.33L_w$ to $+5.0L_w$ & \\ % Couldn't actually get this one from the data
+$+6.0L_w$ to $+8.0L_w$ & 2.00 & 18530 $\pm\ 770$ & 18650 & $+0.6$ &  18889 & $+\phantom{0}1.9$\\
+%& $+6.0L_w$ to $+6.75L_w$ & \\ % Couldn't actually get this one from the data
+%& $+6.75L_w$ to $+8.0L_w$ & \\ % Couldn't actually get this one from the data
+\bottomrule
+\end{tabular}
+\label{table:pressure}
+\end{table}
+
+Fig. \ref{fig:dp} shows the same data as in Table \ref{table:pressure}, in graphical form. The black lines represent the experimental measurements, and the height of these lines represents $\pm$ the experimental uncertainty. In other words, when a \gls{cfd} prediction lies within the black shaded rectangle for a particular axial segment, the \gls{cfd} prediction is within the experimental uncertainty.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/dp.pdf}
+\caption{Pressure drops predicted by NekRS and STAR-CCM+ \cite{martin2020}, compared to the experimental data. The height of the experimental lines represents $\pm$ the experimental uncertainty.}
+\label{fig:dp}
+\end{figure}
+
+
+At several elevations, pressure taps were positioned on multiple duct faces to measure the transverse pressure gradient induced by the wire. 
+
+\begin{table}[htb!]
+\scriptsize
+\caption{Comparison between \gls{cfd} predictions and experimental data for the transverse pressure drop.}
+\centering
+\begin{tabular}{@{}ccccccccc@{}}
+\toprule
+Elevation & Faces & $\Delta P_\text{\ Exp.}$ (Pa) & $\Delta P$ (Pa) & Error (\%) \\
+\midrule
+\bottomrule
+\end{tabular}
+\label{table:pressure_faces}
+\end{table}
+\end{comment}
+
+\section{Multiphysics Modeling of a 7-Pin ABR Bundle}
+\label{sec:coupled}
+
+Cardinal is now applied to high-resolution multiphysics modeling of a reduced-scale 7-pin \gls{abr} bundle. 
+The primary goal is to demonstrate Cardinal's ``readiness'' for steady-state fast reactor applications with proof-of-concept simulations of \gls{sfr} geometries. The purpose at this stage to show that the coupling data transfers are sufficiently sophisticated to capture all multiphysics interactions between neutron transport, \gls{th} and solid heat conduction. The results shown in this section should therefore only be taken as indicative of Cardinal's capabilities for \gls{sfr} analysis, with all validation left to future work. 
+
+This section describes the results of this modeling exercise. The codes coupled in this section include OpenMC, NekRS, and BISON. After describing the computational model, Section \ref{sec:abr_mr} discusses the mesh refinement study and Section \ref{sec:abr_results} then presents Cardinal's multiphysics model predictions.
+
+The \gls{abr} is a large \gls{sfr} concept with a power of 1000 \si{\mega\watt}$_\text{th}$ \cite{abr}. The core design consists of 180 driver fuel assemblies, 114 reflector assemblies, 66 shield assemblies, and 19 control assemblies. The driver fuel assemblies contain 271 wire-wrapped pins within a hexagonal duct, but the present work models a 7-pin version of the same geometry. The geometric parameters are summarized in Table \ref{table:geom_abr}, with a few minor simplifications noted with asterisks. The active height of the \gls{abr} core is 4.22$L_w$, which is shortened to $4.0L_w$ in order to facilitate periodic flow \glspl{bc} in NekRS's \gls{rans} model (to be discussed in detail shortly). Other adjustments to the axial regions in the assembly include neglecting the gas/sodium plenum and using equal-height axial reflectors on the bottom and top of the assembly. %All pin dimensions, including the pin-duct spacing, match the nominal 271-pin design.
+
+\begin{table}[htb!]
+\caption{Geometric parameters for the reduced 7-pin \gls{abr} bundle modeled in the present work \cite{abr}.}
+\centering
+\begin{tabular}{@{}lc@{}}
+\toprule
+Parameter & Value\\
+\midrule
+Active height$^*$ & 0.8128\phantom{0} \si{\meter}\phantom{m}\\
+Rod plenum height$^*$ & 0.0\phantom{0000} \si{\meter}\phantom{m}\\
+Top reflector height$^*$ & 0.50\phantom{000} \si{\meter}\phantom{m}\\
+Bottom reflector height$^*$ & 0.50\phantom{000} \si{\meter}\phantom{m}\\
+%Hydraulic diameter & \phantom{0}3.9868 \si{\milli\meter}\\
+Pin diameter, $D_p$ & 7.646\phantom{00} \si{\milli\meter}\\
+Pin pitch, $P$ & 8.966\phantom{00} \si{\milli\meter}\\
+Clad thickness & 0.587\phantom{00} \si{\milli\meter}\\
+Wire diameter, $D_w$ & 1.03\phantom{000} \si{\milli\meter}\\
+Wire axial pitch, $L_w$ & 0.2032\phantom{0} \si{\meter}\phantom{m}\\
+Duct inner flat-to-flat & 0.02584 \si{\meter}\phantom{m}\\
+Duct thickness$^*$ & 1.983\phantom{00} \si{\milli\meter}\\
+\bottomrule
+\end{tabular}
+\label{table:geom_abr}
+\end{table}
+
+% TODO: discuss various boundary conditions for both models
+
+Material compositions are obtained from \cite{abr_mats}, which provides metallic fuel compositions with five axial enrichment zones. 
+Because the present simulations are purely of a demonstration nature, the fuel composition at all axial positions in the OpenMC model is simply set to the composition of the second layer. Due to the small bundle size, volume fractions of fuel, coolant, and structural materials are distorted from typical \gls{sfr} values. To compensate, the duct thickness is halved to better reflect material volume fractions.
+
+Several simplifications are also required to obtain representative power and flowrate levels. To a first-order approximation, it is assumed that the entire core power is produced by the 180 driver fuel assemblies, neglecting the contributions by other bundle types. The bundle power level $q$ is then approximated as
+
+\begin{equation}
+q=\frac{1000\text{\ MW}_\text{th}}{180\text{ bundles}}\cdot\frac{7}{271}\ .
+\end{equation}
+
+The flowrate $\dot{m}$ is then selected to match the nominal core temperature rise of $\Delta T=155$\si{\celsius} with
+
+\begin{equation}
+q=\dot{m}C_p\Delta T\ .
+\end{equation}
+
+Table \ref{table:coupled_specs} summarizes the operating conditions selected for the reduced 7-pin \gls{abr} bundle.
+
+\begin{table}[htb!]
+\caption{Operating conditions assumed for the reduced 7-pin \gls{abr} bundle \cite{abr}. The Reynolds and Peclet numbers are both based on $D_h$.}
+\centering
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Parameter & Value\\
+\midrule
+Power & 143.5 \si{\kilo\watt}$_\text{th}$\\
+Inlet temperature & 355\si{\celsius}\\
+Core temperature rise & 155\si{\celsius}\\
+%Inlet flowrate & \phantom{0}0.722 \si{\kilo\gram\per\second}\\
+Reynolds number & 37202\\
+Peclet number & 192\\
+\bottomrule
+\end{tabular}
+\label{table:coupled_specs}
+\end{table}
+
+The NekRS computational model is constructed using a spectral element discretization of the $k$-$\tau$ \gls{rans} equations. 
+Because the NeKRS flow solution is decoupled from the energy equation by the incompressible, constant-property $k$-$\tau$ \gls{rans} model, isothermal NekRS simulations are first performed with periodic inlet/outlet \glspl{bc} to converge the flow. No-slip \glspl{bc} are applied on all walls. Next, the multiphysics simulations are performed by transporting a temperature passive scalar on this ``frozen'' flow field with boundary coupling to BISON on the fluid-solid interfaces and volumetric coupling between OpenMC and NekRS--BISON. This two-stage approach is a convenient technique to eliminate the complexity of setting turbulent flow inlet conditions by instead approximating the inlet flow as fully-developed. 
+
+In the OpenMC and BISON models, the wire wrap is homogenized into the cladding in order to obtain a consistent geometric representation with NekRS's wire-wrap \gls{msm} (which does not explicitly mesh wires). For the OpenMC model, the density of the cladding is increased to preserve the overall cladding mass. % TODO: mention hot spots in wires
+
+\subsection{Mesh Refinement Study}
+\label{sec:abr_mr}
+
+A mesh refinement study is performed to ensure that the coupled OpenMC-NekRS-BISON simulation is mesh-independent. Three parameters are varied -- 1)~the NekRS polynomial order $N$, 2)~the BISON uniform mesh refinement level $r$, and 3)~the number of axial layers in the OpenMC cell model. Our previous work \cite{novak2022_cardinal} details our extensive methodology for assessing convergence for multiphysics simulations, and for brevity we refer the reader to this work for more information. Here, we simply note a few important points.
+
+Temporal convergence is assessed using \gls{moose}'s automatic steady state detection features. Temporal convergence is defined as the point at which the relative L$^2$ norm of the {\it entire} coupled physics solution $x$ (solid temperature from BISON, fluid temperature from NekRS, fluid density from NekRS, and OpenMC power) is smaller than a user-specified tolerance. Conceptually, this can be represented similar to Eq. \eqref{eq:T} as
+
+\begin{equation}
+\label{eq:x}
+x\equiv\begin{bmatrix}
+T_s\\
+T_f\\
+\rho_f\\
+\dot{q}_s
+\end{bmatrix}\ ,
+\end{equation}
+
+where each component in the total solution $x$ are themselves vectors with lengths depending on the number of \glspl{dof} in each application. Temporal convergence therefore occurs when the relative norm in $x$ is less than $5\times10^{-3}$, and the simulation automatically terminates at this point.
+
+``Single-physics'' convergence of the OpenMC Monte Carlo transport is assessed using a number of additional criteria. The number of particles per batch is fixed at 10000 for this small model, and the Shannon entropy is then used to select the number of inactive batches \cite{brown_2006}. OpenMC's tally trigger system is then used to terminate each Picard iteration (i.e. stop running active batches) once the maximum relative uncertainty (based on $1-\sigma$ standard deviations) in the fission distribution is less than $5\times10^{-3}$. 
+No instabilities were observed during early scoping studies, but Robbins-Monro relaxation \cite{dufek} was employed based on best-practices in multiphysics algorithms \cite{remley}.
+
+Fig. \ref{fig:sfr_mesh} shows the converged solid mesh (orange regions) and the converged NekRS mesh (blue regions). Note that each NekRS element has $8^3$ \gls{dof}, and therefore actually has a much finer solution representation than the element boundaries shown in Fig. \ref{fig:sfr_mesh}. The fluid and solid meshes are then extruded in the axial direction into 80 layers. The OpenMC mesh mirror is for simplicity identical to the combined mesh shown in Fig. \ref{fig:sfr_mesh}.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.5\linewidth]{figures/sfr_mesh.png}
+\caption{Converged solid and fluid meshes for the 7-pin \gls{abr} bundle simulations.}
+\label{fig:sfr_mesh}
+\end{figure}
+
+\subsection{Results}
+\label{sec:abr_results}
+
+This section presents proof-of-concept simulations of tightly-coupled multiphysics for a 7-pin version of an \gls{abr} bundle using Cardinal.
+Convergence was obtained in 5 Picard iterations. The advantages of using the rigorous convergence criteria in Eq. \eqref{eq:x} is automatic consideration of the solution over the entire domain, as opposed to cherry-picking a subset of the coupled solution. For example, Fig. \ref{fig:k} shows the $k$-eigenvalue as a function of Picard iteration. As can be seen, $k$ during iteration 4 is within the uncertainty bounds of the previous iteration, which would suggest convergence earlier than imposed by the coupled temperature, density, and heat source solution which is captured in Eq. \eqref{eq:x}.
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.5\linewidth]{figures/k_openmc.pdf}
+\caption{OpenMC $k$-eigenvalue as a function of iteration.}
+\label{fig:k}
+\end{figure}
+
+Fig. \ref{fig:power} shows the OpenMC power in the fuel pins, and Fig. \ref{fig:power_axial} shows the power along the centerline of the center pin. Error bars on the power distribution are too small to be visible in Fig. \ref{fig:power_axial}. The axial reflectors above and below the bundle reflect neutrons back to the fuel, inducing large power peaks in these regions. The power is nearly symmetric about the mid-plane due to the small variation of sodium density with temperature \cite{ma_2021} and the long mean free path, which causes thermal feedback to act in a more global sense than in thermal spectrum systems. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.75\linewidth]{figures/raw/power1.png}
+\caption{OpenMC pin power.}
+\label{fig:power}
+\end{figure}
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.5\linewidth]{figures/power_axial.pdf}
+\caption{OpenMC pin power along the centerline.}
+\label{fig:power_axial}
+\end{figure}
+
+Fig. \ref{fig:temperature} shows the BISON duct temperature and the NekRS fluid temperature on several $z$-slices. Two fuel pins are also shown in gray. The \gls{cht} between the fluid and duct is evident in the continuous temperature field at the walls. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.75\linewidth]{figures/raw/temp1.png}
+\caption{BISON duct temperature and NekRS fluid temperature on several $z$-slices.}
+\label{fig:temperature}
+\end{figure}
+
+Fig. \ref{fig:solid_temperature} shows the BISON temperature in the fuel and cladding. The duct is also shown in gray. Due to the \gls{cht} with the fluid, the clad surface temperature varies significantly in the azimuthal direction for the outermost pins.  Fig. \ref{fig:zplane} shows the fluid and solid temperatures on the plane $z=0.805$ \si{\meter} to more clearly illustrate the effects of \gls{cht}. 
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.75\linewidth]{figures/raw/stemp1.png}
+\caption{BISON pin temperature.}
+\label{fig:solid_temperature}
+\end{figure}
+
+\begin{figure}[!htb]                                                                                                  
+\centering
+\includegraphics[width=0.6\linewidth]{figures/raw/zplane.png}
+\caption{NekRS fluid temperature and BISON solid temperature on the plane $z=0.805$ \si{\meter}.}
+\label{fig:zplane}
+\end{figure}
+
+This concludes the application of Cardinal to a 7-pin version of the \gls{abr} driver assembly. The 7-pin \gls{abr} simulations were conducted on Summit, and required approximately 60 node-hours for the isothermal flow solve and an additional 20 node-hours for the coupled physics energy solve (on a ``frozen'' velocity field). Cardinal predicts realistic temperature and power distributions for \gls{sfr} geometries, but additional validation is required for the wire wrap \gls{msm}. Comparisons of Cardinal \gls{cht} simulations using the wire wrap \gls{msm} using a 61-pin partially-heated wire wrap experiment \cite{mays} are underway. Pending acceptable accuracy, the \gls{msm} will provide a pathway towards full-core \gls{rans} modeling of \glspl{sfr} with exascale computing.
+
+\begin{comment}
+\section{Cardinal's Postprocessing Systems}
+\label{sec:postprocessing}
+
+Data postprocessing is an important component of modeling and simulation. For example, a common postprocessing operation involves reducing 3-D vector fields to scalars for purposes such as evaluating energy conservation, assessing time convergence of pseudo-steady calculations, and generating closure terms for low-order methods, such as friction factors for a subchannel solver.
+
+As a standalone tool, OpenMC provides a rich Python API for data manipulation using Python modules such as {\tt matplotlib}. Conversely, NekRS as a standalone tool has limited native capabilities for data postprocessing. Users typically write case-specific {\tt C++} source code to evaluate quantities like pressure drop and heat flux. To expand the toolbox of the computational analyst, Cardinal supplements the postprocessing capabilities of OpenMC and NekRS as standalone tools in two distinct manners.
+
+By projecting the NekRS spectral element solution and OpenMC tally results onto \gls{moose} mesh mirrors, the NekRS and OpenMC solutions are exposed to \gls{moose}'s {\tt Postprocessor} and {\tt UserObject} systems. These systems have extensive capabilities for evaluating extrema/integrals/averages of spatial fields,  computing $L_2$ norms relative to other fields, and much more. However, this approach is limited to the mesh mirror representation of the OpenMC and NekRS solutions. That is, because the mesh mirror is a low-order projection of the high-order NekRS spectral element solution, the ``native'' \gls{moose}-based postprocessing systems will not capture the full fidelity of the NekRS solution. 
+Likewise, if the mirror mesh elements do not perfectly align with the OpenMC cell boundaries, there may be some distortion in the spatial mapping from cells to elements. 
+
+To address these limitations, Cardinal provides an additional postprocessing system that directly operates on the high-fidelity OpenMC and NekRS solutions. In other words, averages/integrals/extrema/etc. are evaluated by directly manipulating arrays in the external code bases. Here, we briefly demonstrate the capabilities of this system for the integrating the NekRS solution over subchannel meshes, a common use case for high-fidelity \gls{cfd}.
+
+\subsection{NekRS Postprocessing}
+
+Cardinal's high-fidelity NekRS postprocessing system is designed with an object-oriented structure that abstracts the {\it operation} (averages, integrals, etc.) from the {\it field} (velocity, temperature, etc.) to which the operation is applied. %The supported fields include velocity, temperature, pressure, passive scalars, and unity (the value 1.0). 
+The operation is either ``global,'' acting over the entire domain, or ``binned,'' acting over a subset of the domain in a structured manner.
+
+The global operations include side averages/integrals/extrema, volume averages/integrals/extrema, and mass-flux weighted side averages/integrals. For illustration, a few concrete examples of global NekRS postprocessors are described in Table \ref{table:global}. The ``physical meaning'' is essentially the combined action of the operation on a particular field over a particular portion of the domain. These scalar values can be sent to standard output to monitor during the simulation or written to CSV files for further manipulation.
+
+\begin{table}[htb!]
+\caption{Example global NekRS postprocessors in Cardinal.}
+\centering
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+Physical meaning& $\ =$ & Field & $\ +$ & Operation & $\ +$ & Domain\\
+\midrule
+average outlet pressure && pressure && side average && outlet boundary\\
+maximum temperature && temperature && volume extrema && entire volume\\
+inlet mass flowrate && unity && side integral weighted by $\rho\vec{V}\cdot\hat{n}$ && inlet boundary\\
+\bottomrule
+\end{tabular}
+\label{table:global_ops}
+\end{table}
+
+The binned operations are similar to the global operations, except that the domain is subdivided into smaller regions, or ``bins.'' The binned operations include side averages/integrals, plane averages/integrals, and volume averages/integrals. The spatial bins are taken as the outer product of a number of {\it distributions}, which can be Cartesian equal-width discretizations along the $x$/$y$/$z$ axes; radial equal-width discretizations along the radial coordinate; and the discretization found in subchannel thermal-fluid methods, where space is divided into interior, edge, and corner subchannels that are connected by gap planes. 
+
+%Cardinal's postprocessing system also contains various meshing utilities to quickly generate 
+
+Several examples of this postprocessing system are now provided. Fig. \ref{fig:pressure_uo} shows the NekRS pressure averaged 
+\end{comment}
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+Cardinal is an open-source \gls{moose} application ({\tt https://github.com/neams-th-coe/cardinal}) that wraps NekRS spectral element \gls{cfd} and OpenMC Monte Carlo radiation transport within the \gls{moose} framework, delivering high-resolution multiphysics feedback to diverse applications in nuclear engineering. As part of an \gls{anl} \gls{ldrd} developing high-fidelity multiphysics tools for predicting core radial expansion, this paper described two applications of Cardinal to hexagaonal pin bundles.
+
+Cardinal's \gls{cht} coupling of NekRS and BISON was compared against temperature data collected in a bare 7-pin experiment from the Research Centre Karlsruhe \cite{cheng2009}. Three different pin heating modes were modeled, and Cardinal predicted the data with acceptable accuracy. Cardinal predicts 73.4\% of thermocouple readings within experimental accuracy and 90.6\% of thermocouple readings within $2\times$ the experimental accuracy. Nearly identical RMS error norms between comparable ANSYS \gls{rans} simulations from the literature \cite{cheng2009} suggest similar accuracy as other \gls{cht} simulation software. A more thorough verification and validation exercise should incorporate uncertainty quantification to assess the combined impact of uncertainties of thermophysical properties, geometric dimensions, and other parameters. In future work, we plan to integrate Cardinal with \gls{moose}'s stochastic tools module to streamline such calculations \cite{stochastic_tools}.
+
+Next, a demonstration application of Cardinal to a reduced 7-pin version of an \gls{abr} driver fuel assembly was performed using a tight coupling of OpenMC, NekRS, and BISON. A wire wrap \gls{msm} was used to approximate the effect of wires on the flow. Predictions were made for fluid temperature, solid temperature, and fission distribution. Additional validation using wire wrap data will be used to assess the relevance of the \gls{msm} for the full-core \gls{sfr} \gls{rans} models targeted by this \gls{ldrd}.
+
+\section*{Acknowledgements}
+
+This material is based upon work supported by Laboratory Directed Research and Development (LDRD) funding from \gls{anl}, provided by the Director, Office of Science, of the U.S. \gls{doe} under Contract No. DE-AC02-06CH11357. 
+
+We gratefully acknowledge the computing resources provided on Bebop, a high-performance computing cluster operated by the Laboratory Computing Resource Center at \gls{anl}.
+
+An award of computer time was provided by the INCITE program. This research also used resources of the Oak Ridge Leadership Computing Facility, which is a DOE Office of Science User Facility supported under Contract DE-AC05-00OR22725
+
+\clearpage
+\providecommand*{\phantomsection}{}
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{unsrt}
+\bibliography{tex_inputs/bibliography}
+
+\end{document}
+
